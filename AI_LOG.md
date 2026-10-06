@@ -92,7 +92,9 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | 17.18 | Canlı başlıklar, canlı test, mobil ve masaüstü ekran görüntüsü; yerel önizleme (`localhost:3000`) Emir'e açıldı | Claude Code |
 | 17.19 | Emir yerelde formu gönderdi, ekranda "kayıt numaranız 4" → salt okuma sorgusuyla veritabanında görüldü | Emir · Claude Code |
 | 17.20–17.21 | **Emir göç 001'i canlıda çalıştırdı** (`npm run db:goc`); salt okuma sorgusuyla kısıtlar doğrulandı | Emir · Claude Code |
-| 17.21– | Raporlar son duruma getirildi; son commit ve gönderim | Claude Code |
+| 17.21–17.23 | Raporlar son duruma getirildi; `7b8b5b8` gönderildi | Claude Code |
+| 17.24 | Canlı kontrolde site bir kez yanıt vermedi (000); hemen tekrar: sayfa 200, API 422 | Claude Code |
+| 17.25 | **Emir:** kayıt 4'ü Neon panelinde gördü, form çalışıyor; "bütün her şeyi pushlayacağız" → kalan kayıt satırları gönderildi | Emir · Claude Code |
 
 ## Karar kaydı
 
