@@ -6,12 +6,14 @@ Form kaydı Postgres'e yazılır; **başarı mesajı yalnız kayıt gerçekten y
 - **Canlı adres:** https://enteksisodev.netlify.app
 - **Repo:** https://github.com/emirdnz/enteksis-odev
 - **AI kullanımı:** [`AI_LOG.md`](AI_LOG.md) (özet, kararlar, doğrulama) ve [`ai-log/`](ai-log) (otomatik ham kayıt)
+- **Teslim öncesi denetim:** [`docs/`](docs) — ödev kontrolü, güvenlik, test, tasarım, teslim listesi
 
 ## Ne yapar
 
 Küçük üretim atölyelerinde siparişlerin defterden dijitale taşınması. Sayfa üç faydayı (işler tek yerde,
 durumlar görünür, deftere bağımlılık azalır) ve üç hizmeti (kurulum, defterden aktarım, ekip eğitimi) anlatır.
-Form alanları: isim, e-posta, hizmet seçimi, açıklama.
+Sıra: sorun → çözüm → örnek ekranlar → fayda → nasıl çalışır → başvuru. Dört kurgusal ürün ekranı var:
+atölye panosu, iş detayı, teslim planı, telefondan durum. Form alanları: isim, e-posta, hizmet seçimi, açıklama.
 
 ## Mimari
 
@@ -29,7 +31,10 @@ BasvuruFormu.tsx  ──POST JSON──▶ /api/basvuru → basvuruIsle()  ─�
 | `src/lib/depo.ts` | Veritabanı erişimi (`@neondatabase/serverless`, parametreli sorgu, ORM yok) |
 | `src/app/api/basvuru/route.ts` | Yalnız `POST`; diğer yöntemlere Next.js 405 döner |
 | `src/app/BasvuruFormu.tsx` | Form: alan hataları, gönderiliyor / başarı / hata durumları, odak yönetimi |
-| `db/sema.sql` | Tablolar ve `CHECK` kısıtları (yalnız `CREATE TABLE IF NOT EXISTS`) |
+| `src/app/OrnekEkranlar.tsx` | Dört örnek ürün ekranı; sunucu bileşeni, tarayıcıya JavaScript eklemez |
+| `db/sema.sql` | Tablolar ve `CHECK` kısıtları (yalnız `CREATE TABLE IF NOT EXISTS`); sınırlar uygulamayla aynı |
+| `db/gocler/001-…sql` | 6 Ekim'de kurulan veritabanına alt sınır kısıtlarını ekler; yalnız `ADD CONSTRAINT` |
+| `next.config.ts` | Güvenlik başlıkları ve içerik güvenliği politikası (CSP) |
 
 ### Sunucuda istek sırası
 
@@ -55,6 +60,7 @@ Gerekenler: Node 20.9+ (Netlify'da 22), bir Postgres adresi (Neon havuzlu bağla
 npm ci
 cp .env.example .env.local     # DATABASE_URL'i doldurun
 npm run db:kur                 # tabloları açar; tekrar çalıştırmak güvenli
+npm run db:goc -- --kontrol    # yalnız eski veritabanı için: göç gerekli mi (salt okuma)
 npm run dev                    # http://localhost:3000
 ```
 
@@ -62,8 +68,8 @@ npm run dev                    # http://localhost:3000
 
 | Komut | Ne sınar | Son sonuç |
 |---|---|---|
-| `npm test` | Şema sınırları; API: 201/422/415/413/400/429/500, başarının kayıttan önce dönmediği, ham hatanın sızmadığı, günlükte bağlantı şifresinin maskelendiği (sahte depo ile) | 19/19 |
-| `npm run test:e2e` | Mobil (390×844) ve masaüstü (1280×800): form akışları, klavyeyle kullanım, axe (WCAG 2.2 AA), gerçek sunucuda 405/415/422/500, güvenlik başlıkları | 30/30 |
+| `npm test` | Şema sınırları (emoji dahil, karakterle ölçülür); API: 201/422/415/413/400/429/500, başarının kayıttan önce dönmediği, ham hatanın sızmadığı, günlükte bağlantı şifresinin maskelendiği (sahte depo ile); gerçek Postgres'te (PGlite, bellekte) uygulama ve veritabanı kurallarının aynı karar verdiği, göçün güvenli olduğu, SQL metninin çalışmadığı, hız sayacı | 26/26 |
+| `npm run test:e2e` | Mobil (390×844) ve masaüstü (1280×800): form akışları, çift gönderimde tek istek, klavyeyle kullanım, axe (WCAG 2.2 AA), bölüm sırası ve örnek ekranlar, gerçek sunucuda 405/415/422/500, güvenlik başlıkları ve CSP | 36/36 |
 | `CANLI_URL=https://… npm run test:e2e` | Canlı adres: sayfa, erişilebilirlik, API, bir kurgusal kayıt | 5 geçti, 1 atlandı (kayıt yalnız masaüstü projesinde) |
 
 E2E testleri gerçek veritabanına **yazmaz**: yerel sunucu bilerek ulaşılamayan bir veritabanı adresiyle
@@ -76,14 +82,19 @@ açılır. Böylece "veritabanı yazamazsa başarı gösterilmez" kuralı gerçe
 - Hız sınırı veritabanında, tek atomik sorguyla (`INSERT … ON CONFLICT DO UPDATE … RETURNING`).
   İstemci anahtarı Netlify'ın yazdığı `x-nf-client-connection-ip` başlığından alınır; istemcinin
   sahteleyebildiği `X-Forwarded-For` kullanılmaz. IP açık değil SHA-256 özeti olarak saklanır.
-- Güvenlik başlıkları: `nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`;
-  `X-Powered-By` kapalı.
+- Veritabanı `CHECK` kısıtları uygulamayla aynı sınırları aynı ölçüyle (karakter) uygular; testle sınanır.
+- Çift gönderim: form kilidi aynı anda ikinci isteği açmaz (ör. çift Enter).
+- Güvenlik başlıkları: içerik güvenliği politikası (yalnız kendi kaynağımız; nonce'suz, sayfa statik kalsın diye),
+  `nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`; `X-Powered-By` kapalı.
+  HSTS'yi Netlify gönderir. Ayrıntı: [`docs/GUVENLIK-RAPORU.md`](docs/GUVENLIK-RAPORU.md).
 
 ## Erişilebilirlik
 
 `lang="tr"`, "İçeriğe geç" bağlantısı, her alanın etiketi, hata metinleri `aria-describedby` ile alana bağlı,
 gönderimde ilk hatalı alana odak, başarı panelinde odak, `role="alert"` / `role="status"` duyuruları,
 görünür odak çizgisi, yalnız klavyeyle tam akış (e2e testinde sınanıyor).
+Örnek ekranlar `role="img"` ve açıklayıcı adla okunur; içlerinde odak alan öğe yoktur. Tek animasyon
+(gönderiliyor simgesi) hareket azaltma ayarında durur.
 
 ## Bilinen sınırlar
 
@@ -91,6 +102,10 @@ görünür odak çizgisi, yalnız klavyeyle tam akış (e2e testinde sınanıyor
 - IP özeti tuzsuz SHA-256: IPv4 uzayı küçük olduğu için tersine çevrilebilir. Takma addır, anonim değildir.
   Sonraki adım: gizli bir anahtarla HMAC.
 - Hız sınırı Netlify başlığına dayanır; başka bir barındırmada başlık yoksa tüm istemciler tek anahtarda toplanır.
+  Aynı ağ çıkışını (NAT) paylaşan kullanıcılar da tek sayaçta sayılır.
+- CSP'de `script-src 'unsafe-inline'` var (Next.js'in satır içi betikleri; nonce sayfayı dinamik yapardı).
+- Yazı tipleri 375 KB ile sayfanın en ağır parçası; azaltma yolları `docs/TASARIM-RAPORU.md`'de.
+- `npm audit`: yayına giden paketlerde 0; yalnız lint aracında (`eslint-config-next` zinciri) 5 yüksek, düzeltmesi yok.
 - E-posta adresi doğrulanmaz, onay e-postası gönderilmez; kayıtlar için yönetim ekranı yok (SQL ile okunur).
 - Zaman aşımında kayıt yazılmış olabilir; kullanıcıya tekrar göndermeden önce beklemesi söylenir,
   ama çift kayıt tamamen engellenmez (idempotency anahtarı yok).
