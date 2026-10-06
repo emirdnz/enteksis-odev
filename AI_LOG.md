@@ -95,6 +95,13 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | 17.21–17.23 | Raporlar son duruma getirildi; `7b8b5b8` gönderildi | Claude Code |
 | 17.24 | Canlı kontrolde site bir kez yanıt vermedi (000); hemen tekrar: sayfa 200, API 422 | Claude Code |
 | 17.25 | **Emir:** kayıt 4'ü Neon panelinde gördü, form çalışıyor; "bütün her şeyi pushlayacağız" → kalan kayıt satırları gönderildi | Emir · Claude Code |
+| 17.27 | **Emir:** yerel sunucuyu kapat; canlıda kendim test edeceğim; sonra görev şartlarına göre 100 üzerinden bak → yerel sunucu kapatıldı | Claude Code |
+| 17.31 | **Emir:** canlıda test etti, kayıtlar Neon'a gidiyor; sağ alttaki Netlify rozetini sordu → rozet Netlify'ın sayfaya eklediği betik, kapatma Netlify ayarında | Claude Code |
+| 17.31–17.34 | Emir sekmeleri tarayıcıda Claude grubuna ekledi; görev sayfası ve değerlendirme rehberi baştan okundu. README'de iki eksik bulundu: hazır şablonun kaynağı, harcanan süre | Claude Code |
+| 17.34 | **Emir rozeti Netlify ayarından kapattı**; canlı sayfada rozet betiği yok. Emir: sayfa sonuna "başa dön" oku | Emir · Claude Code |
+| 17.36–17.42 | **Emir:** tasarım görev şartı mı, baştan yapılabilir mi? → şartta stil yok, görünüm Claude Code'un önerisiydi. Emir "açık kurumsal" yönünü seçti; Claude Code "önce çalışan sürümü gönder, yeni tasarım ayrı dalda" önerdi; Emir kabul etti (K32) | Claude Code |
+| 17.40–17.45 | "Başa dön" bağlantısı ve e2e testi; README'ye kaynak ve süre; kayıtta Neon proje kimliği maskelendi (Hatalar) | Claude Code |
+| 17.46– | Tam test, commit ve gönderme (Emir 17.42'de onay verdi) | Claude Code |
 
 ## Karar kaydı
 
@@ -131,6 +138,7 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | K29 | Çift gönderim | `useRef` kilidi | Yeni test, aynı görevdeki iki gönderimde 2 istek gittiğini gösterdi; durum (state) kontrolü eski değeri görüyordu |
 | K30 | Tasarım | Kâğıt/mürekkep; 4 kurgusal ürün ekranı (pano, iş detayı, teslim planı, telefon); sıra sorun → çözüm → ekranlar → fayda | Emir'in istekleri (16.03, 16.13, 16.18) + ChatGPT talimatı (en az 4 ekran, SaaS paneli değil). Ekranlar sunucu bileşeni: JavaScript eklemez |
 | K31 | Yazı tipleri | Küçültülmedi | Ölçümde en büyük yük (375 KB). Küçültmek görünümü değiştirir; teslimden önce kapsam dışı. `docs/TASARIM-RAPORU.md`'de yazılı |
+| K32 | Yeniden tasarım | Çalışan sürüm önce gönderilir. "Açık kurumsal" tasarım (beyaz zemin, lacivert, tek vurgu, üst menü, sık sorulan sorular) ayrı dalda yapılır; Emir beğenirse ana dala geçer | Emir (17.36–17.42): "puan için değil, içime sinmesi için". Görev stil belirtmiyor; teslim süre bitene kadar güncellenebiliyor. Sıra önerisi Claude Code'un |
 
 ## Doğrulama
 
@@ -170,6 +178,10 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | Canlı görünüm (17.18–17.19) | Ekran görüntüsü 390×844 ve 1280×800 | Yatay kaydırma yok; pano tam. Netlify'ın "Powered by Netlify" rozeti sağ altta sayfanın üstünde (kodda yok) |
 | Yerel form → veritabanı (17.19) | Emir yerelde gönderdi; salt okuma `SELECT` (ad ve e-posta yazdırılmadı) | Ekranda kayıt 4; veritabanında 4 numara, 17.19 |
 | Göç 001, canlı (17.20–17.21) | Emir: `npm run db:goc`; sonra salt okuma `pg_constraint` | "satır: 4 · yeni kurala uymayan: 0 · uygulandı". `basvurular_isim_en_az` (≥ 2) ve `basvurular_aciklama_en_az` (≥ 10) etkin, doğrulanmış; satır sayısı 4, değişmedi |
+| Tam koşu, gönderme öncesi (17.46) | `npm run lint`, `npx tsc --noEmit`, `npx vitest run`, `npm run test:e2e` (derleme dahil) | lint 0; tip 0; 26/26; 38/38 (yeni: “Başa dön” × 2); 3217 portu kapandı |
+| Netlify rozeti (17.34) | Canlı sayfa kaynağında rozet betiği arandı | Yok; Emir Netlify ayarından kapattı |
+| "Başa dön" (17.42) | `npx playwright test tests/e2e/form.spec.ts -g "Başa dön|erişilebilirlik"` | 4/4 (mobil + masaüstü); tıklayınca sayfa başı, odak başta |
+| Kayıt maskeleme (17.45) | Kimlik desenleri yalnız sayı ve şekille arandı; 2 Neon proje kimliği yerel terim listesine eklendi; `node .claude/hooks/ai-kayit.mjs yeniden-maskele`; yeniden sayım | Kalan eşleşme 0. Başvuru kimliği kayıtta yok (bulunan UUID'ler oturum ve mesaj kimliği). Okunamayan satır yine 4, yeni bozulma yok |
 
 ## Hatalar ve düzeltmeler
 
@@ -209,6 +221,7 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | Taşıma sonrası artık bileşen (17.00) | `page.tsx`'te kullanılmayan `IsKarti` kalmıştı | Silindi; tip ve lint temiz |
 | Uzun AI_LOG değişikliği kabukta tırnak hatası verdi (17.13) | Tek satırlık kabuk komutunda | Betik dosyaya yazılıp çalıştırıldı |
 | Göç komutu ilk denemede çalışmadı (17.20) | Komutun sonunda fazladan nokta (`db:goc.`); npm betiği bulamadı | Hiçbir şey değişmedi; noktasız komutla yeniden çalıştırıldı |
+| Neon proje kimliği kayıtta maskesizdi (17.45'te bulundu) | 14.41'deki `neonctl` çıktısı; kimlik yerel terim listesinde yoktu. Gönderilmiş commit'lerde de var | Terim listesine eklendi, kayıt yeniden maskelendi. Kimlik bağlantı şifresi değil, tek başına erişim vermez; git geçmişi yeniden yazılmadı (yıkıcı işlem) |
 
 ## Bilinen eksikler
 
@@ -218,4 +231,4 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
   (`ai-log/oturumlar/`) ret mesajlarıyla birlikte görünür.
 - `olaylar.jsonl`'da 4 satır okunamıyor (satır 55, 317, 336, 349; `yeniden-maskele` hatası, 16.44).
   Elle düzeltilmedi; `npm run ai-log:ozet` bu satırları atlar ve numaralarını yazar. Aynı olaylar oturum dökümünde okunur.
-- Canlıda Netlify sağ alt köşeye "Powered by Netlify" rozeti ekliyor; örnek panonun köşesini örtüyor. Kodda yok; kapatma yolu denenmedi.
+- 17.45'ten önceki commit'lerin kaydında Neon proje kimliği açık (Hatalar). Şimdiki sürümde maskeli.

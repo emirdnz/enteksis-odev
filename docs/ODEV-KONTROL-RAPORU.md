@@ -20,7 +20,7 @@ Tarih: 6 Ekim 2026, teslim öncesi denetim (16.43'ten sonra). Test sayıları `d
 | 13 | Erişilebilirlik | Karşılanıyor | axe (WCAG 2.2 AA) e2e'de 3 durumda (boş sayfa, hata, başarı), iki ekranda; canlıda 1 kez. Yalnız klavyeyle tam akış testi. Örnek ekranlar `role="img"` + açıklama, içlerinde odak alan öğe yok (test) |
 | 14 | Canlı URL | Karşılanıyor | https://enteksisodev.netlify.app son sürümle yayında (Emir onayıyla 17.17'de gönderildi). Canlı test 17.18: 5 geçti, 1 atlandı; güvenlik başlıkları doğrulandı |
 | 15 | Repo | Karşılanıyor | https://github.com/emirdnz/enteksis-odev (public) |
-| 16 | README | Karşılanıyor | Ne yapar, mimari, sunucuda istek sırası, kurulum, testler, güvenlik, erişilebilirlik, bilinen sınırlar |
+| 16 | README | Karşılanıyor | Ne yapar, mimari, sunucuda istek sırası, kurulum, testler, güvenlik, erişilebilirlik, kaynak ve katkı (`create-next-app` iskeleti), harcanan süre, bilinen sınırlar |
 | 17 | `AI_LOG.md` | Karşılanıyor | Zaman çizelgesi, karar kaydı, doğrulama, hatalar. Ham kayıt `ai-log/` (otomatik, maskeli) |
 | 18 | Commit kimliği | Açık | Son commit kimliği Emir'e verilir (bu dosya o commit'in içinde, burada yazılamaz); teslim formuna Emir yazar |
 | 19 | Yalnız kurgusal test verisi | Karşılanıyor | Testler ve örnek ekranlar kurgusal isim kullanır. Altbilgide "gerçek kişisel veri girmeyin" uyarısı |

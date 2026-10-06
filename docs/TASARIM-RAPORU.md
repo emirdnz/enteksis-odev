@@ -83,5 +83,5 @@ Yazı tipleri `next/font` ile kendi alan adımızdan, önceden yüklenerek gelir
 
 ## Canlıda görülen
 
-Netlify sayfanın sağ alt köşesine "Powered by Netlify" rozeti ekliyor (17.18 ekran görüntüleri); mobilde örnek
-panonun köşesini örtüyor. Rozet bizim kodda yok. Kapatma yolu denenmedi.
+Netlify sayfanın sağ alt köşesine "Powered by Netlify" rozeti ekliyordu (17.18 ekran görüntüleri); mobilde örnek
+panonun köşesini örtüyordu. Rozet bizim kodda yoktu. Emir 17.34'te Netlify ayarından kapattı; canlıda artık yok.

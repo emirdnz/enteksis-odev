@@ -1,14 +1,14 @@
 # Test raporu
 
 Testler sayı için çoğaltılmadı; her biri bir kabul ölçütünü ya da bulunan bir hatayı sınar.
-Son tam koşu: 6 Ekim 2026, 17.15–17.16 (birim, lint, tip, derleme, e2e); canlı 17.18. Son doğrulama sonuçları `AI_LOG.md`'de.
+Son tam koşu: 6 Ekim 2026, 17.46 (birim, lint, tip, derleme, e2e); canlı 17.18 (gönderimden sonra yenilenir). Son doğrulama sonuçları `AI_LOG.md`'de.
 
 ## Sayılar
 
 | Katman | Komut | Dosya | Sonuç |
 |---|---|---|---|
 | Birim + API + veritabanı | `npm test` (Vitest) | `basvuru` 8 · `api` 12 · `veritabani` 6 | **26/26** |
-| Uçtan uca (yerel) | `npm run test:e2e` (Playwright) | `form` 12 · `sunucu` 6, her biri mobil + masaüstü | **36/36** |
+| Uçtan uca (yerel) | `npm run test:e2e` (Playwright) | `form` 13 · `sunucu` 6, her biri mobil + masaüstü | **38/38** |
 | Uçtan uca (canlı) | `CANLI_URL=https://enteksisodev.netlify.app npm run test:e2e` | `canli` 3 | Son koşu 17.18: 5 geçti, 1 atlandı (kayıt yalnız masaüstünden yazılır) |
 | Lint | `npm run lint` | — | 0 hata, 0 uyarı |
 | Tip | `npx tsc --noEmit` | — | 0 hata |
@@ -41,7 +41,7 @@ Son tam koşu: 6 Ekim 2026, 17.15–17.16 (birim, lint, tip, derleme, e2e); canl
 | Kötüye kullanım | Birim: tuzak alan 400, 415, bozuk JSON 400, 413 (iki yol), hız sınırı 429. Veritabanı: "istekSay…", SQL metni olduğu gibi saklanır |
 | Güvenlik başlıkları ve CSP | E2E: "güvenlik başlıkları" (CSP, `unsafe-eval` yok), "içerik güvenliği politikası sayfada hiçbir şeyi engellemiyor" |
 | Mobil + masaüstü | Bütün e2e iki ekranda; "yatay kaydırma yok" |
-| Erişilebilirlik | E2E: axe 3 durumda; "yalnız klavyeyle doldurulup gönderilir"; "bölüm sırası ve dört örnek ürün ekranı" (örnek ekranlarda odak alan öğe yok) |
+| Erişilebilirlik | E2E: axe 3 durumda; "yalnız klavyeyle doldurulup gönderilir"; "bölüm sırası ve dört örnek ürün ekranı" (örnek ekranlarda odak alan öğe yok); “Başa dön” sayfa başına götürür, odak başa geçer |
 | Hizmet sayfası | E2E: "sayfa: başlık, hizmet, form…", "bölüm sırası ve dört örnek ürün ekranı" |
 | Günlükte şifre yok | Birim: "sunucu günlüğüne bağlantı adresindeki şifre yazılmaz" |
 

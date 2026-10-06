@@ -69,7 +69,7 @@ npm run dev                    # http://localhost:3000
 | Komut | Ne sınar | Son sonuç |
 |---|---|---|
 | `npm test` | Şema sınırları (emoji dahil, karakterle ölçülür); API: 201/422/415/413/400/429/500, başarının kayıttan önce dönmediği, ham hatanın sızmadığı, günlükte bağlantı şifresinin maskelendiği (sahte depo ile); gerçek Postgres'te (PGlite, bellekte) uygulama ve veritabanı kurallarının aynı karar verdiği, göçün güvenli olduğu, SQL metninin çalışmadığı, hız sayacı | 26/26 |
-| `npm run test:e2e` | Mobil (390×844) ve masaüstü (1280×800): form akışları, çift gönderimde tek istek, klavyeyle kullanım, axe (WCAG 2.2 AA), bölüm sırası ve örnek ekranlar, gerçek sunucuda 405/415/422/500, güvenlik başlıkları ve CSP | 36/36 |
+| `npm run test:e2e` | Mobil (390×844) ve masaüstü (1280×800): form akışları, çift gönderimde tek istek, klavyeyle kullanım, axe (WCAG 2.2 AA), bölüm sırası ve örnek ekranlar, gerçek sunucuda 405/415/422/500, güvenlik başlıkları ve CSP, “Başa dön” bağlantısı | 38/38 |
 | `CANLI_URL=https://… npm run test:e2e` | Canlı adres: sayfa, erişilebilirlik, API, bir kurgusal kayıt | 5 geçti, 1 atlandı (kayıt yalnız masaüstü projesinde) |
 
 E2E testleri gerçek veritabanına **yazmaz**: yerel sunucu bilerek ulaşılamayan bir veritabanı adresiyle
@@ -92,9 +92,23 @@ açılır. Böylece "veritabanı yazamazsa başarı gösterilmez" kuralı gerçe
 
 `lang="tr"`, "İçeriğe geç" bağlantısı, her alanın etiketi, hata metinleri `aria-describedby` ile alana bağlı,
 gönderimde ilk hatalı alana odak, başarı panelinde odak, `role="alert"` / `role="status"` duyuruları,
-görünür odak çizgisi, yalnız klavyeyle tam akış (e2e testinde sınanıyor).
+görünür odak çizgisi, yalnız klavyeyle tam akış (e2e testinde sınanıyor). Sayfa sonundaki “Başa dön”
+bağlantısı JavaScript'siz çalışır ve odağı sayfa başına taşır (e2e testinde sınanıyor).
 Örnek ekranlar `role="img"` ve açıklayıcı adla okunur; içlerinde odak alan öğe yoktur. Tek animasyon
 (gönderiliyor simgesi) hareket azaltma ayarında durur.
+
+## Kaynak ve katkı
+
+- Başlangıç iskeleti `create-next-app` ile kuruldu (Next.js 16.3.8, 13.55). Başka hazır şablon ya da tema yok.
+- Ekip ya da açık kaynak katkısı yok. Dışarıdan gelen yalnız `package.json`'daki bağımlılıklar.
+- İskeletin üstündeki kod, testler ve belgeler Claude Code ile yazıldı. Kararlar, hesaplar ve gizli değişkenler
+  Emir'de. Kim neyi yaptı: [`AI_LOG.md`](AI_LOG.md).
+
+## Harcanan süre
+
+Sayaç 13.53'te başladı; bu sürüm aynı gün 18.00'den önce gönderildi (6 Ekim 2026, İstanbul): yaklaşık 4 saat,
+kısa aralar dahil. Sayaç öncesinde ilan okundu ve plan yapıldı; o süre kayda geçmedi. Saat saat döküm:
+`AI_LOG.md` → Zaman çizelgesi.
 
 ## Bilinen sınırlar
 
