@@ -43,3 +43,8 @@ next-env.d.ts
 
 # claude code — kişisel yerel ayar repoya girmez
 .claude/settings.local.json
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/
