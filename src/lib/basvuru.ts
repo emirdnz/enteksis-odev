@@ -35,12 +35,16 @@ export const SINIRLAR = {
 // Postgres metin alanı NUL karakterini kabul etmez; yazmaya gitmeden burada reddedilir.
 const nulYok = (s: string) => !s.includes("\u0000");
 
+// Uzunluk, veritabanındaki char_length gibi karakter (kod noktası) sayısıdır. JS'in .length'i
+// UTF-16 birimi sayar: bir emoji 2 olur, Postgres'te 1. Sınırlar iki tarafta aynı ölçülsün diye.
+export const karakterSayisi = (s: string) => Array.from(s).length;
+
 export const basvuruSemasi = z.object({
   isim: z
     .string({ error: "İsim gerekli." })
     .trim()
-    .min(SINIRLAR.isim.en_az, `İsim en az ${SINIRLAR.isim.en_az} karakter olmalı.`)
-    .max(SINIRLAR.isim.en_cok, `İsim en fazla ${SINIRLAR.isim.en_cok} karakter olabilir.`)
+    .refine((s) => karakterSayisi(s) >= SINIRLAR.isim.en_az, `İsim en az ${SINIRLAR.isim.en_az} karakter olmalı.`)
+    .refine((s) => karakterSayisi(s) <= SINIRLAR.isim.en_cok, `İsim en fazla ${SINIRLAR.isim.en_cok} karakter olabilir.`)
     .refine(nulYok, "İsimde geçersiz karakter var."),
   eposta: z
     .string({ error: "E-posta gerekli." })
@@ -52,8 +56,14 @@ export const basvuruSemasi = z.object({
   aciklama: z
     .string({ error: "Açıklama gerekli." })
     .trim()
-    .min(SINIRLAR.aciklama.en_az, `Açıklama en az ${SINIRLAR.aciklama.en_az} karakter olmalı.`)
-    .max(SINIRLAR.aciklama.en_cok, `Açıklama en fazla ${SINIRLAR.aciklama.en_cok} karakter olabilir.`)
+    .refine(
+      (s) => karakterSayisi(s) >= SINIRLAR.aciklama.en_az,
+      `Açıklama en az ${SINIRLAR.aciklama.en_az} karakter olmalı.`,
+    )
+    .refine(
+      (s) => karakterSayisi(s) <= SINIRLAR.aciklama.en_cok,
+      `Açıklama en fazla ${SINIRLAR.aciklama.en_cok} karakter olabilir.`,
+    )
     .refine(nulYok, "Açıklamada geçersiz karakter var."),
 });
 

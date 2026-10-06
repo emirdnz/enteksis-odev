@@ -50,6 +50,13 @@ describe("doğrulama şeması", () => {
     expect(hatasi({ ...gecerli, aciklama: "ş".repeat(2001) }, "aciklama")).toMatch(/en fazla 2000/);
   });
 
+  it("uzunluk karakterle ölçülür, JS'in UTF-16 birimiyle değil (veritabanıyla aynı)", () => {
+    // 🔧: JS .length 2, Postgres char_length 1.
+    expect(hatasi({ ...gecerli, isim: "🔧" }, "isim")).toMatch(/en az 2/);
+    expect(dogrula({ ...gecerli, isim: "🔧".repeat(100) }).gecerli).toBe(true);
+    expect(hatasi({ ...gecerli, aciklama: "🔧".repeat(5) }, "aciklama")).toMatch(/en az 10/);
+  });
+
   it("eksik alan ve yanlış tip çökertmez, alan hatası döner", () => {
     const s = dogrula({ isim: 42 });
     expect(s.gecerli).toBe(false);

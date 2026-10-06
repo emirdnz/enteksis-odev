@@ -10,6 +10,7 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "db:kur": "node --env-file=.env.local scripts/db-kur.mjs",
+    "db:goc": "node --env-file=.env.local scripts/db-goc.mjs",
     "ai-log:ozet": "node .claude/hooks/ai-kayit.mjs ozet"
   },
   "dependencies": {
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
+    "@electric-sql/pglite": "^0.5.8",
     "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^24.19.1",

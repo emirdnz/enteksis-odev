@@ -6,6 +6,7 @@ import {
   HIZMETLER,
   SINIRLAR,
   dogrula,
+  karakterSayisi,
   type AlanAdi,
   type AlanHatalari,
   type BasvuruYaniti,
@@ -157,7 +158,7 @@ export default function BasvuruFormu() {
   }
 
   const hataKimligi = (ad: AlanAdi) => (hatalar[ad] ? `${ad}-hata` : undefined);
-  const aciklamaUzunlugu = degerler.aciklama.length;
+  const aciklamaUzunlugu = karakterSayisi(degerler.aciklama);
 
   return (
     <form noValidate onSubmit={gonder} aria-describedby="form-notu" className="space-y-6">
