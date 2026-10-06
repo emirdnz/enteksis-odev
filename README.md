@@ -69,7 +69,7 @@ npm run dev                    # http://localhost:3000
 | Komut | Ne sınar | Son sonuç |
 |---|---|---|
 | `npm test` | Şema sınırları (emoji dahil, karakterle ölçülür); API: 201/422/415/413/400/429/500, başarının kayıttan önce dönmediği, ham hatanın sızmadığı, günlükte bağlantı şifresinin maskelendiği (sahte depo ile); gerçek Postgres'te (PGlite, bellekte) uygulama ve veritabanı kurallarının aynı karar verdiği, göçün güvenli olduğu, SQL metninin çalışmadığı, hız sayacı | 26/26 |
-| `npm run test:e2e` | Mobil (390×844) ve masaüstü (1280×800): form akışları, çift gönderimde tek istek, klavyeyle kullanım, axe (WCAG 2.2 AA), bölüm sırası ve örnek ekranlar, gerçek sunucuda 405/415/422/500, güvenlik başlıkları ve CSP, “Başa dön” bağlantısı | 38/38 |
+| `npm run test:e2e` | Mobil (390×844) ve masaüstü (1280×800): form akışları, çift gönderimde tek istek, klavyeyle kullanım, axe (WCAG 2.2 AA), bölüm sırası ve örnek ekranlar, gerçek sunucuda 405/415/422/500, güvenlik başlıkları ve CSP, “Başa dön” düğmesi, sık sorulan sorular | 40/40 |
 | `CANLI_URL=https://… npm run test:e2e` | Canlı adres: sayfa, erişilebilirlik, API, bir kurgusal kayıt | 5 geçti, 1 atlandı (kayıt yalnız masaüstü projesinde) |
 
 E2E testleri gerçek veritabanına **yazmaz**: yerel sunucu bilerek ulaşılamayan bir veritabanı adresiyle
@@ -92,8 +92,9 @@ açılır. Böylece "veritabanı yazamazsa başarı gösterilmez" kuralı gerçe
 
 `lang="tr"`, "İçeriğe geç" bağlantısı, her alanın etiketi, hata metinleri `aria-describedby` ile alana bağlı,
 gönderimde ilk hatalı alana odak, başarı panelinde odak, `role="alert"` / `role="status"` duyuruları,
-görünür odak çizgisi, yalnız klavyeyle tam akış (e2e testinde sınanıyor). Sayfa sonundaki “Başa dön”
-bağlantısı JavaScript'siz çalışır ve odağı sayfa başına taşır (e2e testinde sınanıyor).
+görünür odak çizgisi, yalnız klavyeyle tam akış (e2e testinde sınanıyor). Sağ alttaki “Başa dön”
+düğmesi sayfa aşağı kaydırılınca belirir, odağı sayfa başına taşır; görünmezken sekme sırasına girmez. Sık sorulan
+sorular tarayıcının kendi `<details>` öğesiyle, JavaScript'siz ve klavyeyle açılır (ikisi de e2e testinde sınanıyor).
 Örnek ekranlar `role="img"` ve açıklayıcı adla okunur; içlerinde odak alan öğe yoktur. Tek animasyon
 (gönderiliyor simgesi) hareket azaltma ayarında durur.
 
@@ -118,7 +119,7 @@ kısa aralar dahil. Sayaç öncesinde ilan okundu ve plan yapıldı; o süre kay
 - Hız sınırı Netlify başlığına dayanır; başka bir barındırmada başlık yoksa tüm istemciler tek anahtarda toplanır.
   Aynı ağ çıkışını (NAT) paylaşan kullanıcılar da tek sayaçta sayılır.
 - CSP'de `script-src 'unsafe-inline'` var (Next.js'in satır içi betikleri; nonce sayfayı dinamik yapardı).
-- Yazı tipleri 375 KB ile sayfanın en ağır parçası; azaltma yolları `docs/TASARIM-RAPORU.md`'de.
+- Mobilde üst menü gizli (açılır menü JavaScript isterdi); bölümlere kaydırarak ya da alt bilgideki bağlantılardan gidilir.
 - `npm audit`: yayına giden paketlerde 0; yalnız lint aracında (`eslint-config-next` zinciri) 5 yüksek, düzeltmesi yok.
 - E-posta adresi doğrulanmaz, onay e-postası gönderilmez; kayıtlar için yönetim ekranı yok (SQL ile okunur).
 - Zaman aşımında kayıt yazılmış olabilir; kullanıcıya tekrar göndermeden önce beklemesi söylenir,

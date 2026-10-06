@@ -1,6 +1,6 @@
 # Teslim kontrol listesi
 
-✅ tamam · ⏳ bekliyor · ⚠️ not. Son doğrulama 6 Ekim 2026, 17.15–17.21; testler 17.46'da yenilendi; ayrıntı `AI_LOG.md` → Doğrulama.
+✅ tamam · ⏳ bekliyor · ⚠️ not. Son doğrulama 6 Ekim 2026, 17.15–17.21; testler 18.01'de yenilendi (açık kurumsal tasarım); ayrıntı `AI_LOG.md` → Doğrulama.
 
 ## Teslim edilecekler
 
@@ -25,7 +25,7 @@
 | 5 | Tip | `npx tsc --noEmit` | ✅ 0 |
 | 6 | Derleme | `npm run build` | ✅ `/` statik, `/api/basvuru` dinamik |
 | 7 | Birim | `npx vitest run` | ✅ 26/26 |
-| 8 | Uçtan uca + axe | `npm run test:e2e` (mobil + masaüstü) | ✅ 38/38 (17.46) |
+| 8 | Uçtan uca + axe | `npm run test:e2e` (mobil + masaüstü) | ✅ 40/40 (18.01) |
 | 9 | Gönderme | **Emir onayıyla** `git push` | ✅ 17.17 |
 | 10 | Canlı başlıklar | `curl -sI` → CSP, HSTS, nosniff; API `Cache-Control: no-store` | ✅ 17.18 |
 | 11 | Canlı akış | `CANLI_URL=… npx playwright test tests/e2e/canli.spec.ts` | ✅ 5 geçti, 1 atlandı (17.18). Emir'in yerel denemesi: kayıt 4 veritabanında (17.19) |

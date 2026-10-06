@@ -47,10 +47,9 @@ body {
   outline-color: var(--color-vurgu-acik-metin);
 }
 
-/* Yapışkan üst bilgi bağlantı hedeflerini örtmesin. */
-main,
-section[id] {
-  scroll-margin-top: 5rem;
+/* Yapışkan üst bilgi; bağlantı hedefini ve klavye odağını örtmesin. */
+html {
+  scroll-padding-top: 5rem;
 }
 
 @media (prefers-reduced-motion: no-preference) {

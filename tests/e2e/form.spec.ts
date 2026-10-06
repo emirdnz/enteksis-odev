@@ -27,6 +27,7 @@ test("bölüm sırası ve dört örnek ürün ekranı", async ({ page }) => {
     "Ofiste, tezgâhta, telefonda",
     "Tezgâh ile ne değişir?",
     "Nasıl çalışır?",
+    "Sık sorulan sorular",
     "Ön görüşme talebi",
   ]);
   await expect(page.getByRole("img", { name: /^Örnek ekran:/ })).toHaveCount(4);
@@ -34,13 +35,24 @@ test("bölüm sırası ve dört örnek ürün ekranı", async ({ page }) => {
   await expect(page.locator('[role="img"] :is(a, button, input, select, textarea, [tabindex])')).toHaveCount(0);
 });
 
-test("sayfa sonundaki “Başa dön” en üste götürür ve odağı başa taşır", async ({ page }) => {
+test("“Başa dön” düğmesi aşağıda belirir, en üste götürür ve odağı başa taşır", async ({ page }) => {
   const basaDon = page.getByRole("link", { name: "Başa dön" });
-  await basaDon.scrollIntoViewIfNeeded();
-  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+  await expect(basaDon).toBeHidden(); // en üstte gerekmez, sekme sırasına da girmez
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await expect(basaDon).toBeVisible();
   await basaDon.click();
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
-  await expect(page.locator("#ust")).toBeFocused();
+  await expect(page.locator("#icerik")).toBeFocused();
+  await expect(basaDon).toBeHidden();
+});
+
+test("sık sorulan sorular klavyeyle açılır", async ({ page }) => {
+  const soru = page.getByText("Ön görüşme ücretli mi?");
+  const cevap = page.getByText(/ön görüşme ücretsizdir/);
+  await expect(cevap).toBeHidden();
+  await soru.focus();
+  await page.keyboard.press("Enter");
+  await expect(cevap).toBeVisible();
 });
 
 test("yatay kaydırma yok", async ({ page }) => {

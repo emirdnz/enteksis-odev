@@ -101,7 +101,13 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | 17.34 | **Emir rozeti Netlify ayarından kapattı**; canlı sayfada rozet betiği yok. Emir: sayfa sonuna "başa dön" oku | Emir · Claude Code |
 | 17.36–17.42 | **Emir:** tasarım görev şartı mı, baştan yapılabilir mi? → şartta stil yok, görünüm Claude Code'un önerisiydi. Emir "açık kurumsal" yönünü seçti; Claude Code "önce çalışan sürümü gönder, yeni tasarım ayrı dalda" önerdi; Emir kabul etti (K32) | Claude Code |
 | 17.40–17.45 | "Başa dön" bağlantısı ve e2e testi; README'ye kaynak ve süre; kayıtta Neon proje kimliği maskelendi (Hatalar) | Claude Code |
-| 17.46– | Tam test, commit ve gönderme (Emir 17.42'de onay verdi) | Claude Code |
+| 17.46–17.47 | Tam test (lint 0, tip 0, 26/26, 38/38), commit `47270cc`, gönderme (Emir 17.42'de onay verdi) | Claude Code |
+| 17.48–17.49 | Canlı: sürüm 17.48.22'de yayında; rozet betiği yok; canlı test 5 geçti, 1 atlandı | Claude Code |
+| 17.49–17.55 | Ayrı dalda (`tasarim-kurumsal`) açık kurumsal tasarım: renkler, yazı tipi, örnek ekranlar, form; renk karşıtlığı hesaplandı | Claude Code |
+| 17.55 | **Emir:** ekranında sıcak renk ayarı açıkmış, mevcut tasarım da güzel; teslim edelim → yeni tasarım durduruldu, yarım hali dalda saklandı | Claude Code |
+| 17.56–17.58 | **Emir:** yerelde göster → ana sayfa yeni tasarımla yazıldı, yerel sunucuda açıldı. **Emir (17.58):** "çok güzel olmuş, bu tasarıma geçelim" (K33). "Başa dön" daha önce yaptığı bir sitedeki gibi olsun → o site bu oturumda açılmadı (proje dışı); yaygın biçim seçildi: sağ altta, kaydırınca beliren yuvarlak düğme | Emir · Claude Code |
+| 17.59–18.01 | "Başa dön" düğmesi, sık sorulan sorular testi; ekran görüntülerinde iki kusur bulundu ve düzeltildi; tam test; ölçüm | Claude Code |
+| 18.02– | Belgeler yeni tasarıma göre; commit; gönderme Emir'e soruldu | Claude Code |
 
 ## Karar kaydı
 
@@ -139,6 +145,7 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | K30 | Tasarım | Kâğıt/mürekkep; 4 kurgusal ürün ekranı (pano, iş detayı, teslim planı, telefon); sıra sorun → çözüm → ekranlar → fayda | Emir'in istekleri (16.03, 16.13, 16.18) + ChatGPT talimatı (en az 4 ekran, SaaS paneli değil). Ekranlar sunucu bileşeni: JavaScript eklemez |
 | K31 | Yazı tipleri | Küçültülmedi | Ölçümde en büyük yük (375 KB). Küçültmek görünümü değiştirir; teslimden önce kapsam dışı. `docs/TASARIM-RAPORU.md`'de yazılı |
 | K32 | Yeniden tasarım | Çalışan sürüm önce gönderilir. "Açık kurumsal" tasarım (beyaz zemin, lacivert, tek vurgu, üst menü, sık sorulan sorular) ayrı dalda yapılır; Emir beğenirse ana dala geçer | Emir (17.36–17.42): "puan için değil, içime sinmesi için". Görev stil belirtmiyor; teslim süre bitene kadar güncellenebiliyor. Sıra önerisi Claude Code'un |
+| K33 | Tasarım geçişi | Açık kurumsal tasarım ana dala alınır. K30'un kâğıt/mürekkep görünümü bırakılır; 4 örnek ekran ve bölüm sırası kalır, sık sorulan sorular eklenir. "Başa dön" sağ altta yuvarlak düğme | Emir yerelde baktı (17.58): "çok güzel olmuş, bu tasarıma geçelim". Yazı tipi yükü 375.1 → 101.5 KB, K31'deki bulgu kapandı |
 
 ## Doğrulama
 
@@ -182,6 +189,11 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | Netlify rozeti (17.34) | Canlı sayfa kaynağında rozet betiği arandı | Yok; Emir Netlify ayarından kapattı |
 | "Başa dön" (17.42) | `npx playwright test tests/e2e/form.spec.ts -g "Başa dön|erişilebilirlik"` | 4/4 (mobil + masaüstü); tıklayınca sayfa başı, odak başta |
 | Kayıt maskeleme (17.45) | Kimlik desenleri yalnız sayı ve şekille arandı; 2 Neon proje kimliği yerel terim listesine eklendi; `node .claude/hooks/ai-kayit.mjs yeniden-maskele`; yeniden sayım | Kalan eşleşme 0. Başvuru kimliği kayıtta yok (bulunan UUID'ler oturum ve mesaj kimliği). Okunamayan satır yine 4, yeni bozulma yok |
+| Canlı, gönderme sonrası (17.48–17.49) | Yayın sayacı; canlı sayfada rozet betiği arandı; `CANLI_URL=… npx playwright test tests/e2e/canli.spec.ts` | 17.48.22'de yayında; rozet yok; 5 geçti, 1 atlandı |
+| Renk karşıtlığı, yeni tasarım (17.49–17.55) | WCAG formülüyle hesap | Metin/beyaz 17.28; soluk/beyaz 7.34; beyaz/turuncu 5.18; beyaz/lacivert 14.52; açık turuncu/lacivert 8.61. Turuncu/lacivert 2.80 → lacivert bölümlerde kullanılmadı |
+| Yeni tasarım, tam koşu (18.00–18.01) | `npm run lint`, `npx tsc --noEmit`, `npm test`, `npx playwright test` (derleme dahil) | lint 0; tip 0; 26/26; 40/40 (yeni: sık sorulan sorular × 2; "Başa dön" testi düğmeye göre yenilendi) |
+| Yeni tasarım, görünüm (18.00) | Ekran görüntüsü 390×844 (üst, alt) ve 1280×800 (SSS) | İki kusur bulundu, düzeltildi: mobilde düğme alt bilgi metnini örtüyordu (son satıra boşluk); yarı saydam menünün arkasında yazı silik görünüyordu (düz beyaz). Sonra tam koşu yine 40/40 |
+| Ölçüm, yeni tasarım (18.01) | `node scripts/olc.mjs` | Yazı tipi 101.5 KB (önce 375.1); JS 222.9 KB (+0.5); HTML gzip 17.4 KB; CLS 0; sayfa statik |
 
 ## Hatalar ve düzeltmeler
 
