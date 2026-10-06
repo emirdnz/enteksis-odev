@@ -20,7 +20,9 @@ kaydedilir (`ai-log/`). Bu yüzden:
 ## Kararlar (Emir)
 - Next.js 16 + TypeScript. ORM yok: `@neondatabase/serverless`, parametreli sorgu.
 - Veritabanı Neon (havuzlu bağlantı adresi), yayın Netlify (olmazsa Render). Repo public.
-- Hizmet: **henüz seçilmedi** — seçenekler: atölye iş takibi · görev otomasyonu · site + teklif formu.
+- Hizmet (6 Eki 14.27): **küçük üretim atölyeleri için dijital iş takibi** — kâğıt/defterden dijitale.
+  Dar kapsam: tek hizmet, 3 fayda (işler tek yerde · durumlar görünür · defter bağımlılığı azalır).
+  ERP'ye genişletilmez, yeni modül icat edilmez. Formdaki hizmet seçenekleri 3 tane, bu hizmete bağlı.
 - Doğrulama tek şema (tarayıcı + sunucu): isim 2–100, e-posta biçimi, hizmet listeden, açıklama 10–2000.
 - Kötüye kullanım: gizli tuzak alanı, istek boyutu sınırı, hız sınırı veritabanında.
 
@@ -42,7 +44,7 @@ kaydedilir (`ai-log/`). Bu yüzden:
 - **Hata:** gerçekten olduysa yaz, uydurma. Bulunmadıysa nasıl doğrulandığını yaz.
 - Commit öncesi `ai-log/` dosyalarında gizli değer ya da kişisel bilgi kalmadığını kontrol et.
 
-## Veritabanı ve altyapıda yıkıcı işlem (Emir, 6 Eki 14.24)
+## Veritabanı ve altyapıda yıkıcı işlem (Emir, 6 Eki 14.22)
 - `DROP`, `DELETE`, `TRUNCATE`, mevcut veriyi değiştiren migration, toplu silme **doğrudan çalıştırılmaz**.
 - Önce neyin değişeceği gösterilir; mümkünse test veritabanında denenir; geri dönüş yolu yazılır.
 - Üretim verisini etkileyebilecek komutu Claude Code çalıştırmaz; Emir son kontrolü yapıp kendisi çalıştırır.

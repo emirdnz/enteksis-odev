@@ -6,7 +6,7 @@ sohbetine de yapıştırdım; tam metni o saatin dökümünde (`ai-log/oturumlar
 
 | # | Saat | Konu | Kabul | Ret | Döküm |
 |---|---|---|---|---|---|
-| 1 | 6 Eki 14.15 → cevap 14.24 | Durum bildirimi + plan danışması | 6 öneri | 0 | `oturumlar/2026-10-06_1403_8069d3ff.md` |
+| 1 | 6 Eki 14.15 → cevap 14.22 | Durum bildirimi + plan danışması | 6 öneri | 0 | `oturumlar/2026-10-06_1403_8069d3ff.md` |
 
 ---
 
@@ -65,7 +65,7 @@ SORULARIM
 6. (Ödev sayfasında yazılı senaryo sorusu varsa buraya yapıştır) Nasıl yaklaşmalıyım?
 ```
 
-**Cevap özeti (14.24, tam metin dökümde):**
+**Cevap özeti (14.22, tam metin dökümde):**
 
 1. **Hizmet:** (a) atölye iş takibi — gerçek deneyime dayanıyor, adayı ayırıyor. Ama ERP'ye genişletme;
    tek hizmet, 3 fayda, formda 3 küçük seçenek.
@@ -87,7 +87,7 @@ SORULARIM
 
 | Öneri | Durum | Not |
 |---|---|---|
-| Hizmet (a), dar kapsam | Emir'in onayını bekliyor | Claude Code da (a) önermişti |
+| Hizmet (a), dar kapsam | Kabul (Emir, 14.27) | Claude Code da (a) önermişti |
 | Mimari aynı kalsın + sunucu kuralları | Kabul | Plana zaten uyuyor; "POST dışı ret" ve "ham hata gizli" teste eklenecek |
 | Hız sınırı sona, basit | Kabul | Tek tablo + tek sorgu; Netlify'nin koyduğu `x-nf-client-connection-ip` başlığı kullanılacak |
 | "Başarı yalnız kayıt sonrası" ayrı test | Kabul | |

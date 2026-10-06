@@ -41,8 +41,9 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | 14.19 | Dökümde otomatik deneme istemi "Emir" diye etiketlenmişti → düzeltildi | Claude Code |
 | 14.21 | Bağlam penceresi doldu; Claude Code konuşmayı özetleyip devam etti | — |
 | 14.22 | Commit öncesi kişisel bilgi taraması: dökümde ödev dışı dosya içerikleri bulundu → temizlendi | Claude Code |
-| 14.24 | ChatGPT cevabı geldi: 6 öneri kabul, hizmet seçimi Emir'de (`ai-log/chatgpt.md`) | ChatGPT |
-| 14.24 | **Emir kuralı:** veritabanında yıkıcı işlem AI'a doğrudan çalıştırılmaz (K8) | — |
+| 14.22 | ChatGPT cevabı geldi: 6 öneri kabul, hizmet seçimi Emir'de (`ai-log/chatgpt.md`) | ChatGPT |
+| 14.22 | **Emir kuralı:** veritabanında yıkıcı işlem AI'a doğrudan çalıştırılmaz (K8) | — |
+| 14.27 | Emir: hizmet A (atölye iş takibi) seçildi (K11); public GitHub reposuna gönderme onaylandı | — |
 
 ## Karar kaydı
 
@@ -58,6 +59,7 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | K8 | Yıkıcı DB işlemi | `DROP`/`DELETE`/`TRUNCATE`/veri değiştiren migration AI tarafından çalıştırılmaz; önce etkisi gösterilir, Emir çalıştırır | Emir'in kuralı: üretim verisinde son kontrol insanda (`CLAUDE.md`) |
 | K9 | İş sırası | Önce canlı iskelet, sonra form → doğrulama → DB → başarı zinciri, landing ondan sonra; hız sınırı en sona; 4 saat (30 dk tampon) | ChatGPT önerisi, Claude Code görüşüyle uyumlu; kabul |
 | K10 | Kayıt altyapısı | Daha fazla geliştirilmez | ChatGPT önerisi: asıl teslim belgesi AI_LOG.md; kabul |
+| K11 | Hizmet | Küçük üretim atölyeleri için dijital iş takibi; dar kapsam, ERP'ye genişletilmez | Emir'in kararı. Gerçek deneyime dayanıyor (aile atölyesinde kâğıt-defter takibi); Claude Code ve ChatGPT de bunu önermişti |
 
 ## Doğrulama
 
