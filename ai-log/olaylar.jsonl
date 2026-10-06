@@ -1,0 +1,5 @@
+{"zaman":"2026-10-06T11:18:14.945Z","oturum":"5b9af9b3","olay":"SessionStart","kaynak":"startup"}
+{"zaman":"2026-10-06T11:18:17.508Z","oturum":"5b9af9b3","olay":"UserPromptSubmit","istem":"Kayıt sistemi kurulum testi: package.json dosyasını Read aracıyla oku ve yalnızca name alanının değerini yaz. Başka dosya okuma."}
+{"zaman":"2026-10-06T11:18:20.815Z","oturum":"5b9af9b3","olay":"PostToolUse","arac":"Read","dosya":".\\package.json","sonuc":"tamam"}
+{"zaman":"2026-10-06T11:18:22.389Z","oturum":"5b9af9b3","olay":"Stop"}
+{"zaman":"2026-10-06T11:18:22.496Z","oturum":"5b9af9b3","olay":"SessionEnd","neden":"other"}
