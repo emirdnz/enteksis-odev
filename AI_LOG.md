@@ -44,6 +44,8 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | 14.22 | ChatGPT cevabı geldi: 6 öneri kabul, hizmet seçimi Emir'de (`ai-log/chatgpt.md`) | ChatGPT |
 | 14.22 | **Emir kuralı:** veritabanında yıkıcı işlem AI'a doğrudan çalıştırılmaz (K8) | — |
 | 14.27 | Emir: hizmet A (atölye iş takibi) seçildi (K11); public GitHub reposuna gönderme onaylandı | — |
+| 14.29 | Commit biçimi tartışıldı: Emir tek commit önerdi, Claude Code adım adım commit önerdi → Emir kabul etti (K12) | Claude Code |
+| 14.30 | Public repo açıldı ve gönderildi: `github.com/emirdnz/enteksis-odev` | Claude Code |
 
 ## Karar kaydı
 
@@ -60,6 +62,7 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | K9 | İş sırası | Önce canlı iskelet, sonra form → doğrulama → DB → başarı zinciri, landing ondan sonra; hız sınırı en sona; 4 saat (30 dk tampon) | ChatGPT önerisi, Claude Code görüşüyle uyumlu; kabul |
 | K10 | Kayıt altyapısı | Daha fazla geliştirilmez | ChatGPT önerisi: asıl teslim belgesi AI_LOG.md; kabul |
 | K11 | Hizmet | Küçük üretim atölyeleri için dijital iş takibi; dar kapsam, ERP'ye genişletilmez | Emir'in kararı. Gerçek deneyime dayanıyor (aile atölyesinde kâğıt-defter takibi); Claude Code ve ChatGPT de bunu önermişti |
+| K12 | Commit biçimi | Her adım ayrı commit, tek işe tek mesaj; geçmiş sonradan birleştirilmez | Emir tek commit önerdi. Claude Code: değerlendirici süreci commit geçmişinden görür, AI_LOG commit kimliklerine atıf yapar, tek parça teslim kopya izlenimi verebilir. Emir kabul etti |
 
 ## Doğrulama
 
