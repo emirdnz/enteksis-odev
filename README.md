@@ -3,7 +3,7 @@
 Enteksis teknik değerlendirme ödevi. Kurgusal bir hizmet için tanıtım sayfası ve ön görüşme formu.
 Form kaydı Postgres'e yazılır; **başarı mesajı yalnız kayıt gerçekten yazıldıysa gösterilir.**
 
-- **Canlı adres:** _(yayından sonra eklenecek)_
+- **Canlı adres:** https://enteksisodev.netlify.app
 - **Repo:** https://github.com/emirdnz/enteksis-odev
 - **AI kullanımı:** [`AI_LOG.md`](AI_LOG.md) (özet, kararlar, doğrulama) ve [`ai-log/`](ai-log) (otomatik ham kayıt)
 
@@ -42,7 +42,7 @@ BasvuruFormu.tsx  ──POST JSON──▶ /api/basvuru → basvuruIsle()  ─�
 | 5 | Şemaya uymuyor | 422 + alan hataları |
 | 6 | Aynı istemciden 10 dakikada 5'ten fazla istek | 429 + `Retry-After` |
 | 7 | `INSERT … RETURNING id` döndü | **201** `{ durum: "kaydedildi", kayitNo }` |
-| — | Veritabanı hatası (sayaç ya da kayıt) | 500, genel mesaj; ham hata yalnız sunucu günlüğüne |
+| — | Veritabanı hatası (sayaç ya da kayıt) | 500, genel mesaj; ham hata yalnız sunucu günlüğüne, bağlantı adresindeki kullanıcı adı ve şifre maskelenerek |
 
 Arayüz başarıyı yalnız **201 ve `durum: "kaydedildi"`** birlikte gelirse gösterir. 200, 502, HTML hata
 sayfası, zaman aşımı (15 sn) ve ağ hatası hata olarak gösterilir; girilen bilgiler silinmez.
@@ -62,9 +62,9 @@ npm run dev                    # http://localhost:3000
 
 | Komut | Ne sınar | Son sonuç |
 |---|---|---|
-| `npm test` | Şema sınırları; API: 201/422/415/413/400/429/500, başarının kayıttan önce dönmediği, ham hatanın sızmadığı (sahte depo ile) | 18/18 |
+| `npm test` | Şema sınırları; API: 201/422/415/413/400/429/500, başarının kayıttan önce dönmediği, ham hatanın sızmadığı, günlükte bağlantı şifresinin maskelendiği (sahte depo ile) | 19/19 |
 | `npm run test:e2e` | Mobil (390×844) ve masaüstü (1280×800): form akışları, klavyeyle kullanım, axe (WCAG 2.2 AA), gerçek sunucuda 405/415/422/500, güvenlik başlıkları | 30/30 |
-| `CANLI_URL=https://… npm run test:e2e` | Canlı adres: sayfa, erişilebilirlik, API, bir kurgusal kayıt | yayından sonra |
+| `CANLI_URL=https://… npm run test:e2e` | Canlı adres: sayfa, erişilebilirlik, API, bir kurgusal kayıt | 5 geçti, 1 atlandı (kayıt yalnız masaüstü projesinde) |
 
 E2E testleri gerçek veritabanına **yazmaz**: yerel sunucu bilerek ulaşılamayan bir veritabanı adresiyle
 açılır. Böylece "veritabanı yazamazsa başarı gösterilmez" kuralı gerçek sunucuda da sınanır.
