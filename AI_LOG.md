@@ -46,6 +46,7 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | 14.27 | Emir: hizmet A (atölye iş takibi) seçildi (K11); public GitHub reposuna gönderme onaylandı | — |
 | 14.29 | Commit biçimi tartışıldı: Emir tek commit önerdi, Claude Code adım adım commit önerdi → Emir kabul etti (K12) | Claude Code |
 | 14.30 | Public repo açıldı ve gönderildi: `github.com/emirdnz/enteksis-odev` | Claude Code |
+| 14.33 | Kurulum oturumu kapandı; son dökümü elle alındı. Ödev, proje klasöründe açılan yeni oturumda otomatik kayıtla sürer | Claude Code |
 
 ## Karar kaydı
 
