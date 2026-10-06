@@ -21,7 +21,7 @@ type Durum =
 const ZAMAN_ASIMI_MS = 15_000;
 
 const girdiSinifi =
-  "mt-2 block w-full rounded-[3px] border border-kenar bg-white px-3.5 py-3 text-base text-murekkep " +
+  "mt-2 block w-full rounded-lg border border-kenar bg-white px-3.5 py-3 text-base text-metin " +
   "aria-[invalid=true]:border-red-700 aria-[invalid=true]:border-2";
 
 export default function BasvuruFormu() {
@@ -131,7 +131,7 @@ export default function BasvuruFormu() {
         tabIndex={-1}
         role="region"
         aria-labelledby="basari-baslik"
-        className="rounded-[3px] border-2 border-yesil bg-yesil-acik p-6"
+        className="rounded-lg border-2 border-yesil bg-yesil-acik p-6"
       >
         <span aria-hidden="true" className="flex size-10 items-center justify-center rounded-full bg-yesil text-white">
           <svg
@@ -146,16 +146,16 @@ export default function BasvuruFormu() {
             <path d="M5 12.5l4.5 4.5L19 7.5" />
           </svg>
         </span>
-        <h3 id="basari-baslik" className="mt-4 font-serif text-2xl text-yesil">
+        <h3 id="basari-baslik" className="mt-4 text-2xl font-semibold text-yesil">
           Talebiniz kaydedildi
         </h3>
-        <p className="mt-2 text-murekkep">
+        <p className="mt-2 text-metin">
           Kayıt numaranız: <strong>{durum.kayitNo}</strong>. Size e-postayla dönüş yapacağız.
         </p>
         <button
           type="button"
           onClick={() => setDurum({ tur: "bos" })}
-          className="mt-5 rounded-[3px] border border-yesil bg-white px-4 py-2 font-medium text-yesil hover:bg-yesil-acik"
+          className="mt-5 rounded-lg border border-yesil bg-white px-4 py-2 font-medium text-yesil hover:bg-yesil-acik"
         >
           Yeni bir talep gönder
         </button>
@@ -174,14 +174,14 @@ export default function BasvuruFormu() {
 
       <div
         role="alert"
-        className={durum.tur === "hata" ? "rounded-[3px] border-2 border-red-700 bg-red-50 p-4 text-red-900" : ""}
+        className={durum.tur === "hata" ? "rounded-lg border-2 border-red-700 bg-red-50 p-4 text-red-900" : ""}
       >
         {durum.tur === "hata" ? durum.mesaj : null}
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
-          <label htmlFor="isim" className="block font-medium text-murekkep">
+          <label htmlFor="isim" className="block font-medium text-metin">
             Adınız soyadınız
           </label>
           <input
@@ -209,7 +209,7 @@ export default function BasvuruFormu() {
         </div>
 
         <div>
-          <label htmlFor="eposta" className="block font-medium text-murekkep">
+          <label htmlFor="eposta" className="block font-medium text-metin">
             E-posta adresiniz
           </label>
           <input
@@ -240,12 +240,12 @@ export default function BasvuruFormu() {
       </div>
 
       <fieldset aria-describedby={hataKimligi("hizmet")}>
-        <legend className="font-medium text-murekkep">Hangi hizmetle ilgileniyorsunuz?</legend>
-        <div className="mt-3 divide-y divide-cizgi rounded-[3px] border border-kenar">
+        <legend className="font-medium text-metin">Hangi hizmetle ilgileniyorsunuz?</legend>
+        <div className="mt-3 divide-y divide-cizgi rounded-lg border border-kenar">
           {HIZMETLER.map((h, i) => (
             <label
               key={h.deger}
-              className="flex cursor-pointer gap-3 bg-white p-4 hover:bg-kagit has-[:checked]:bg-kagit has-[:checked]:shadow-[inset_3px_0_0_var(--color-pas)]"
+              className="flex cursor-pointer gap-3 bg-white p-4 hover:bg-yuzey has-[:checked]:bg-vurgu-acik has-[:checked]:shadow-[inset_3px_0_0_var(--color-vurgu)]"
             >
               <input
                 ref={
@@ -261,10 +261,10 @@ export default function BasvuruFormu() {
                 required
                 checked={degerler.hizmet === h.deger}
                 onChange={(e) => degistir("hizmet", e.target.value)}
-                className="mt-1 size-4 shrink-0 accent-pas"
+                className="mt-1 size-4 shrink-0 accent-vurgu"
               />
               <span>
-                <span className="block font-medium text-murekkep">{h.baslik}</span>
+                <span className="block font-medium text-metin">{h.baslik}</span>
                 <span className="block text-sm text-soluk">{h.aciklama}</span>
               </span>
             </label>
@@ -278,7 +278,7 @@ export default function BasvuruFormu() {
       </fieldset>
 
       <div>
-        <label htmlFor="aciklama" className="block font-medium text-murekkep">
+        <label htmlFor="aciklama" className="block font-medium text-metin">
           Atölyenizi ve ihtiyacınızı kısaca anlatın
         </label>
         <p id="aciklama-ipucu" className="text-sm text-soluk">
@@ -320,7 +320,7 @@ export default function BasvuruFormu() {
         <button
           type="submit"
           aria-disabled={gonderiliyor}
-          className="flex w-full items-center justify-center gap-2 rounded-[3px] bg-pas px-7 py-3.5 text-lg font-medium text-white hover:bg-pas-koyu aria-disabled:cursor-wait aria-disabled:opacity-80 sm:w-auto"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-vurgu px-7 py-3.5 text-lg font-medium text-white hover:bg-vurgu-koyu aria-disabled:cursor-wait aria-disabled:opacity-80 sm:w-auto"
         >
           {gonderiliyor && (
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className="size-5 motion-safe:animate-spin">

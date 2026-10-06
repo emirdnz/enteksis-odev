@@ -2,22 +2,28 @@
 
 @theme inline {
   --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 }
 
-/* Kâğıt ve mürekkep: defter havası. Metin renkleri kâğıt ve beyaz üzerinde en az 4.5:1. */
+/* Açık kurumsal: beyaz zemin, lacivert, tek vurgu (turuncu).
+   Metin renkleri beyaz ve açık yüzeyde en az 4.5:1. Lacivert zeminde vurgu yerine vurgu-acik-metin. */
 @theme {
-  --color-kagit: #f6f2eb;
-  --color-kagit-koyu: #ece5d9;
-  --color-murekkep: #1f1c18;
-  --color-soluk: #5d564c;
-  --color-cizgi: #d8cfc1;
-  --color-kenar: #857b6e;
-  --color-pas: #9c3d17;
-  --color-pas-koyu: #7d2f10;
-  --color-yesil: #3b6b45;
-  --color-yesil-acik: #eef4ef;
+  --color-zemin: #ffffff;
+  --color-yuzey: #f4f6f9;
+  --color-yuzey-koyu: #e8edf3;
+  --color-metin: #0f1b2d;
+  --color-soluk: #4b5768;
+  --color-cizgi: #dde3ea;
+  --color-kenar: #7a8696;
+  --color-lacivert: #13294b;
+  --color-lacivert-koyu: #0c1d38;
+  --color-koyu-soluk: #b8c4d6;
+  --color-vurgu: #c2410c;
+  --color-vurgu-koyu: #9a3412;
+  --color-vurgu-acik: #fff3eb;
+  --color-vurgu-acik-metin: #fdba74;
+  --color-yesil: #17663a;
+  --color-yesil-acik: #ecf6ef;
 }
 
 /* Tek, açık tema: atölye ortamında ekran parlaklığından bağımsız yüksek karşıtlık. */
@@ -26,18 +32,37 @@
 }
 
 body {
-  background: var(--color-kagit);
-  color: var(--color-murekkep);
+  background: var(--color-zemin);
+  color: var(--color-metin);
 }
 
 /* Klavyeyle gezinen her öğede belirgin odak çizgisi. */
 :focus-visible {
-  outline: 3px solid var(--color-pas);
+  outline: 3px solid var(--color-vurgu);
   outline-offset: 2px;
+}
+
+/* Lacivert bölümlerde turuncu çizgi zayıf kalır (2.8:1); açık turuncu 8.6:1. */
+.koyu :focus-visible {
+  outline-color: var(--color-vurgu-acik-metin);
+}
+
+/* Yapışkan üst bilgi bağlantı hedeflerini örtmesin. */
+main,
+section[id] {
+  scroll-margin-top: 5rem;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
   }
+}
+
+/* Sık sorulan sorular: tarayıcının kendi üçgeni yerine artı/eksi işareti. */
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
 }
