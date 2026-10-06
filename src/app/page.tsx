@@ -57,7 +57,7 @@ function Logo() {
 export default function Sayfa() {
   return (
     <>
-      <header className="border-b border-cizgi">
+      <header id="ust" tabIndex={-1} className="border-b border-cizgi">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-5 sm:px-6">
           <Logo />
           <a
@@ -244,6 +244,24 @@ export default function Sayfa() {
             Tezgâh kurgusal bir hizmettir; bu sayfa bir teknik değerlendirme ödevi için hazırlanmıştır. Forma gerçek
             kişisel bilgi girmeyin.
           </p>
+          <a
+            href="#ust"
+            className="inline-flex items-center gap-2 self-start py-2 font-medium text-pas underline decoration-1 underline-offset-4 hover:text-pas-koyu md:self-auto"
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              className="size-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 19V5M5 12l7-7 7 7" />
+            </svg>
+            Başa dön
+          </a>
         </div>
       </footer>
     </>

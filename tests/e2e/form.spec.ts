@@ -34,6 +34,15 @@ test("bölüm sırası ve dört örnek ürün ekranı", async ({ page }) => {
   await expect(page.locator('[role="img"] :is(a, button, input, select, textarea, [tabindex])')).toHaveCount(0);
 });
 
+test("sayfa sonundaki “Başa dön” en üste götürür ve odağı başa taşır", async ({ page }) => {
+  const basaDon = page.getByRole("link", { name: "Başa dön" });
+  await basaDon.scrollIntoViewIfNeeded();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+  await basaDon.click();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  await expect(page.locator("#ust")).toBeFocused();
+});
+
 test("yatay kaydırma yok", async ({ page }) => {
   const tasma = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(tasma).toBeLessThanOrEqual(0);
