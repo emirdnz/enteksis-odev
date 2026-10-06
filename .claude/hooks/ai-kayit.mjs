@@ -304,10 +304,20 @@ export function dokumUret(transcriptYolu, { bas, son, gizle = [] } = {}) {
 
 // ---------- özet: olaylar.jsonl → sayılar ----------
 
+// Okunamayan satır özeti durdurmaz: atlanır, sayısı ve satır numarası rapora yazılır. Kayıt elle düzeltilmez.
 function ozet() {
-  const kayitlar = fs.existsSync(OLAYLAR)
-    ? fs.readFileSync(OLAYLAR, "utf8").split("\n").filter(Boolean).map((s) => JSON.parse(s))
-    : [];
+  const kayitlar = [];
+  const bozuk = [];
+  const ham = fs.existsSync(OLAYLAR) ? fs.readFileSync(OLAYLAR, "utf8").split("\n") : [];
+  ham.forEach((s, i) => {
+    if (!s.trim()) return;
+    try {
+      kayitlar.push(JSON.parse(s));
+    } catch {
+      bozuk.push(i + 1);
+    }
+  });
+  const zamanli = kayitlar.filter((k) => !Number.isNaN(Date.parse(k.zaman)));
   const oturumlar = new Set(kayitlar.map((k) => k.oturum));
   const istem = kayitlar.filter((k) => k.olay === "UserPromptSubmit").length;
   const araclar = kayitlar.filter((k) => k.arac);
@@ -321,7 +331,8 @@ function ozet() {
     `| Oturum | ${oturumlar.size} |`,
     `| İstem | ${istem} |`,
     `| Araç çağrısı | ${araclar.length} (hatalı: ${hata}) |`,
-    kayitlar.length ? `| İlk / son olay | ${tarihSaat(kayitlar[0].zaman)} / ${tarihSaat(kayitlar.at(-1).zaman)} |` : "| İlk / son olay | — |",
+    zamanli.length ? `| İlk / son olay | ${tarihSaat(zamanli[0].zaman)} / ${tarihSaat(zamanli.at(-1).zaman)} |` : "| İlk / son olay | — |",
+    `| Okunamayan satır (atlandı) | ${bozuk.length ? `${bozuk.length} (satır ${bozuk.join(", ")})` : 0} |`,
     "",
     "| Araç | Çağrı |",
     "|---|---|",
@@ -350,9 +361,19 @@ if (komut === "ozet") {
 } else if (komut === "yeniden-maskele") {
   // Maskeleme listesine sonradan eklenen terim, önceden yazılmış kayıtlardan da silinir.
   const dosyalar = [OLAYLAR, ...fs.readdirSync(OTURUMLAR).map((d) => path.join(OTURUMLAR, d))];
+  // olaylar.jsonl satır satır, JSON olarak maskelenir: ham metinde maskeleme kaçış işaretlerini
+  // (\") bozup satırı okunamaz yapıyordu. Zaten okunamayan satır ham metin olarak maskelenir.
+  const jsonSatiri = (s) => {
+    if (!s.trim()) return s;
+    try {
+      return JSON.stringify(derinMaskele(JSON.parse(s)));
+    } catch {
+      return maskele(s);
+    }
+  };
   for (const d of dosyalar) {
     const eski = fs.readFileSync(d, "utf8");
-    const yeni = maskele(eski);
+    const yeni = d === OLAYLAR ? eski.split("\n").map(jsonSatiri).join("\n") : maskele(eski);
     if (yeni !== eski) {
       fs.writeFileSync(d, yeni);
       console.log("maskelendi:", path.relative(KOK, d));

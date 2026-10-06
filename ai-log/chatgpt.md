@@ -7,6 +7,7 @@ sohbetine de yapıştırdım; tam metni o saatin dökümünde (`ai-log/oturumlar
 | # | Saat | Konu | Kabul | Ret | Döküm |
 |---|---|---|---|---|---|
 | 1 | 6 Eki 14.15 → cevap 14.22 | Durum bildirimi + plan danışması | 6 öneri | 0 | `oturumlar/2026-10-06_1403_8069d3ff.md` |
+| 2 | 6 Eki 16.28 → talimat 16.39 | Teslim öncesi denetim ve iyileştirme talimatı | Çoğu | 2 (gerekçeli) | `oturumlar/2026-10-06_1522_07b7050d.md` |
 
 ---
 
@@ -93,3 +94,42 @@ SORULARIM
 | "Başarı yalnız kayıt sonrası" ayrı test | Kabul | |
 | Kayıt altyapısını büyütme | Kabul | Bu danışmadan sonra yalnız kişisel bilgi temizliği bitirildi, yeni özellik eklenmedi |
 | Önce canlı iskelet, 4 saatlik plan | Kabul | |
+
+---
+
+## 2 · Teslim öncesi denetim talimatı (6 Eki 16.28 → 16.39)
+
+16.28'de Claude Code projenin raporunu çıkardı (ne olduğu, teknolojisi, testler, kararlar, durum).
+Emir raporu kendi gözlemleriyle birlikte ChatGPT'ye verdi. ChatGPT, Claude Code'a uygulanacak bir talimat
+yazdı; Emir talimatı 16.39'da sohbete yapıştırdı (tam metin dökümde).
+
+**Talimatın özeti:**
+
+1. Önce oku, mevcut çalışan yapıyı bozma, kapsamı büyütme; yeni özellik uydurma.
+2. Ödev uygunluk denetimi (karşılanıyor / kısmen / karşılanmıyor) → `docs/ODEV-KONTROL-RAPORU.md`.
+3. Veri bütünlüğü: uygulama doğrulaması ile veritabanı `CHECK` kısıtları aynı mı? Değilse düzelt + test.
+   Yıkıcı veritabanı işlemi Emir'in açık onayı olmadan yok.
+4. API güvenliği maddeleri tek tek doğrulansın (yalnız POST, 415, 413, 400, tuzak alan, hız sınırı,
+   parametreli SQL, iç hata sızmaması, çift gönderim, `Cache-Control`, gizli değerler kodda değil).
+5. Public repo taraması: gizli değer, kişisel veri, yerel yol; GitHub güvenlik taraması ve `npm audit`.
+   Ham AI kayıtlarının repoda kalmasının gerekli olup olmadığı değerlendirilsin.
+6. Güvenlik başlıkları; CSP ve HSTS güvenle eklenebiliyorsa eklensin, uygulamayı bozmasın.
+7. Testler kabul kriterlerini kanıtlasın; sayı için çoğaltılmasın.
+8. Tasarım: kâğıt/mürekkep yaklaşımı kalabilir ama ürünü daha güçlü göstermeli. **En az 4 kurgusal ürün
+   ekranı:** atölye panosu, iş detayı, teslim planı, mobil hızlı durum. SaaS paneline dönüşmesin.
+9. Erişilebilirlik ve performans korunsun ve ölçülsün.
+10. AI_LOG: istek → AI önerisi → Emir kararı → neden → doğrulama → hata; olay ve sayı uydurulmasın.
+    Özet betiği bozuk satırı atlayıp raporlasın, kayıt elle düzeltilmesin.
+11. Raporlar: `docs/` altında ödev kontrolü, güvenlik, test, tasarım, teslim kontrolü.
+12. Her ana değişiklik ayrı commit; sonunda sabit sırayla son doğrulama.
+
+**Kararlar (Emir, 16.43: "kalsin, yap"; Claude Code görüşü):**
+
+| Öneri | Durum | Not |
+|---|---|---|
+| Uygulama ve veritabanı sınırları hizalansın | Kabul | Denetimde bulundu: veritabanında isim ve açıklamanın alt sınırı 1. Ayrıca uzunluk sayımı farklı (JS emojiyi 2, Postgres 1 sayar); ikisi birlikte düzeltilir. Canlı veritabanı komutunu Emir çalıştırır |
+| Ham AI kayıtları repodan çıkarılsın mı? | **Ret — kalsın** (Emir) | AI ile üretim puanının kanıtı; maskeli. Çıkarmak git geçmişinden silmez |
+| HSTS eklensin | Gerek yok | Canlıda Netlify zaten gönderiyor (`max-age=31536000; includeSubDomains; preload`, `curl` ile görüldü) |
+| CSP eklensin | Kabul | Nonce'suz sürüm: sayfa statik kalır (nonce tüm sayfayı dinamik yapardı) |
+| Marka "TEZGAH" | Ret | Doğru Türkçe yazımı "Tezgâh"; sayfada öyle kalır |
+| Diğer maddeler | Kabul | Uygulama ve sonuçlar `docs/` raporlarında |
