@@ -1,7 +1,23 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+}
+
+/* Kâğıt ve mürekkep: defter havası. Metin renkleri kâğıt ve beyaz üzerinde en az 4.5:1. */
+@theme {
+  --color-kagit: #f6f2eb;
+  --color-kagit-koyu: #ece5d9;
+  --color-murekkep: #1f1c18;
+  --color-soluk: #5d564c;
+  --color-cizgi: #d8cfc1;
+  --color-kenar: #857b6e;
+  --color-pas: #9c3d17;
+  --color-pas-koyu: #7d2f10;
+  --color-yesil: #3b6b45;
+  --color-yesil-acik: #eef4ef;
 }
 
 /* Tek, açık tema: atölye ortamında ekran parlaklığından bağımsız yüksek karşıtlık. */
@@ -10,13 +26,13 @@
 }
 
 body {
-  background: #fafaf9;
-  color: #1c1917;
+  background: var(--color-kagit);
+  color: var(--color-murekkep);
 }
 
 /* Klavyeyle gezinen her öğede belirgin odak çizgisi. */
 :focus-visible {
-  outline: 3px solid #b45309;
+  outline: 3px solid var(--color-pas);
   outline-offset: 2px;
 }
 

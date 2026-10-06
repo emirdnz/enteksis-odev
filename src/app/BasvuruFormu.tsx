@@ -15,15 +15,12 @@ type Degerler = Record<AlanAdi, string>;
 const BOS: Degerler = { isim: "", eposta: "", hizmet: "", aciklama: "" };
 
 type Durum =
-  | { tur: "bos" }
-  | { tur: "gonderiliyor" }
-  | { tur: "basarili"; kayitNo: number }
-  | { tur: "hata"; mesaj: string };
+  { tur: "bos" } | { tur: "gonderiliyor" } | { tur: "basarili"; kayitNo: number } | { tur: "hata"; mesaj: string };
 
 const ZAMAN_ASIMI_MS = 15_000;
 
 const girdiSinifi =
-  "mt-1 block w-full rounded-md border border-stone-500 bg-white px-3 py-2 text-base text-stone-900 " +
+  "mt-2 block w-full rounded-[3px] border border-kenar bg-white px-3.5 py-3 text-base text-murekkep " +
   "aria-[invalid=true]:border-red-700 aria-[invalid=true]:border-2";
 
 export default function BasvuruFormu() {
@@ -127,18 +124,31 @@ export default function BasvuruFormu() {
         tabIndex={-1}
         role="region"
         aria-labelledby="basari-baslik"
-        className="rounded-lg border-2 border-green-700 bg-green-50 p-6"
+        className="rounded-[3px] border-2 border-yesil bg-yesil-acik p-6"
       >
-        <h3 id="basari-baslik" className="text-xl font-semibold text-green-900">
+        <span aria-hidden="true" className="flex size-10 items-center justify-center rounded-full bg-yesil text-white">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2.5}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="size-5"
+          >
+            <path d="M5 12.5l4.5 4.5L19 7.5" />
+          </svg>
+        </span>
+        <h3 id="basari-baslik" className="mt-4 font-serif text-2xl text-yesil">
           Talebiniz kaydedildi
         </h3>
-        <p className="mt-2 text-stone-800">
+        <p className="mt-2 text-murekkep">
           Kayıt numaranız: <strong>{durum.kayitNo}</strong>. Size e-postayla dönüş yapacağız.
         </p>
         <button
           type="button"
           onClick={() => setDurum({ tur: "bos" })}
-          className="mt-4 rounded-md border border-green-800 px-4 py-2 font-medium text-green-900 hover:bg-green-100"
+          className="mt-5 rounded-[3px] border border-yesil bg-white px-4 py-2 font-medium text-yesil hover:bg-yesil-acik"
         >
           Yeni bir talep gönder
         </button>
@@ -151,79 +161,84 @@ export default function BasvuruFormu() {
 
   return (
     <form noValidate onSubmit={gonder} aria-describedby="form-notu" className="space-y-6">
-      <p id="form-notu" className="text-sm text-stone-600">
+      <p id="form-notu" className="text-sm text-soluk">
         Tüm alanlar zorunludur.
       </p>
 
-      <div role="alert" className={durum.tur === "hata" ? "rounded-md border-2 border-red-700 bg-red-50 p-4 text-red-900" : ""}>
+      <div
+        role="alert"
+        className={durum.tur === "hata" ? "rounded-[3px] border-2 border-red-700 bg-red-50 p-4 text-red-900" : ""}
+      >
         {durum.tur === "hata" ? durum.mesaj : null}
       </div>
 
-      <div>
-        <label htmlFor="isim" className="block font-medium text-stone-900">
-          Adınız soyadınız
-        </label>
-        <input
-          ref={(el) => {
-            alanlar.current.isim = el;
-          }}
-          id="isim"
-          name="isim"
-          type="text"
-          autoComplete="name"
-          required
-          maxLength={SINIRLAR.isim.en_cok}
-          value={degerler.isim}
-          onChange={(e) => degistir("isim", e.target.value)}
-          onBlur={() => birak("isim")}
-          aria-invalid={hatalar.isim ? true : undefined}
-          aria-describedby={hataKimligi("isim")}
-          className={girdiSinifi}
-        />
-        {hatalar.isim && (
-          <p id="isim-hata" className="mt-1 text-sm font-medium text-red-700">
-            {hatalar.isim}
-          </p>
-        )}
-      </div>
+      <div className="grid gap-6 sm:grid-cols-2">
+        <div>
+          <label htmlFor="isim" className="block font-medium text-murekkep">
+            Adınız soyadınız
+          </label>
+          <input
+            ref={(el) => {
+              alanlar.current.isim = el;
+            }}
+            id="isim"
+            name="isim"
+            type="text"
+            autoComplete="name"
+            required
+            maxLength={SINIRLAR.isim.en_cok}
+            value={degerler.isim}
+            onChange={(e) => degistir("isim", e.target.value)}
+            onBlur={() => birak("isim")}
+            aria-invalid={hatalar.isim ? true : undefined}
+            aria-describedby={hataKimligi("isim")}
+            className={girdiSinifi}
+          />
+          {hatalar.isim && (
+            <p id="isim-hata" className="mt-1 text-sm font-medium text-red-700">
+              {hatalar.isim}
+            </p>
+          )}
+        </div>
 
-      <div>
-        <label htmlFor="eposta" className="block font-medium text-stone-900">
-          E-posta adresiniz
-        </label>
-        <input
-          ref={(el) => {
-            alanlar.current.eposta = el;
-          }}
-          id="eposta"
-          name="eposta"
-          type="email"
-          inputMode="email"
-          autoComplete="email"
-          spellCheck={false}
-          required
-          maxLength={SINIRLAR.eposta.en_cok}
-          value={degerler.eposta}
-          onChange={(e) => degistir("eposta", e.target.value)}
-          onBlur={() => birak("eposta")}
-          aria-invalid={hatalar.eposta ? true : undefined}
-          aria-describedby={hataKimligi("eposta")}
-          className={girdiSinifi}
-        />
-        {hatalar.eposta && (
-          <p id="eposta-hata" className="mt-1 text-sm font-medium text-red-700">
-            {hatalar.eposta}
-          </p>
-        )}
+        <div>
+          <label htmlFor="eposta" className="block font-medium text-murekkep">
+            E-posta adresiniz
+          </label>
+          <input
+            ref={(el) => {
+              alanlar.current.eposta = el;
+            }}
+            id="eposta"
+            name="eposta"
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            spellCheck={false}
+            required
+            maxLength={SINIRLAR.eposta.en_cok}
+            value={degerler.eposta}
+            onChange={(e) => degistir("eposta", e.target.value)}
+            onBlur={() => birak("eposta")}
+            aria-invalid={hatalar.eposta ? true : undefined}
+            aria-describedby={hataKimligi("eposta")}
+            className={girdiSinifi}
+          />
+          {hatalar.eposta && (
+            <p id="eposta-hata" className="mt-1 text-sm font-medium text-red-700">
+              {hatalar.eposta}
+            </p>
+          )}
+        </div>
       </div>
 
       <fieldset aria-describedby={hataKimligi("hizmet")}>
-        <legend className="font-medium text-stone-900">Hangi hizmetle ilgileniyorsunuz?</legend>
-        <div className="mt-2 grid gap-3 sm:grid-cols-3">
+        <legend className="font-medium text-murekkep">Hangi hizmetle ilgileniyorsunuz?</legend>
+        <div className="mt-3 divide-y divide-cizgi rounded-[3px] border border-kenar">
           {HIZMETLER.map((h, i) => (
             <label
               key={h.deger}
-              className="flex cursor-pointer gap-3 rounded-md border border-stone-400 bg-white p-3 has-[:checked]:border-2 has-[:checked]:border-amber-700 has-[:checked]:bg-amber-50"
+              className="flex cursor-pointer gap-3 bg-white p-4 hover:bg-kagit has-[:checked]:bg-kagit has-[:checked]:shadow-[inset_3px_0_0_var(--color-pas)]"
             >
               <input
                 ref={
@@ -239,11 +254,11 @@ export default function BasvuruFormu() {
                 required
                 checked={degerler.hizmet === h.deger}
                 onChange={(e) => degistir("hizmet", e.target.value)}
-                className="mt-1 size-4 shrink-0 accent-amber-700"
+                className="mt-1 size-4 shrink-0 accent-pas"
               />
               <span>
-                <span className="block font-medium text-stone-900">{h.baslik}</span>
-                <span className="block text-sm text-stone-700">{h.aciklama}</span>
+                <span className="block font-medium text-murekkep">{h.baslik}</span>
+                <span className="block text-sm text-soluk">{h.aciklama}</span>
               </span>
             </label>
           ))}
@@ -256,10 +271,10 @@ export default function BasvuruFormu() {
       </fieldset>
 
       <div>
-        <label htmlFor="aciklama" className="block font-medium text-stone-900">
+        <label htmlFor="aciklama" className="block font-medium text-murekkep">
           Atölyenizi ve ihtiyacınızı kısaca anlatın
         </label>
-        <p id="aciklama-ipucu" className="text-sm text-stone-600">
+        <p id="aciklama-ipucu" className="text-sm text-soluk">
           Ne üretiyorsunuz, işleri bugün nasıl takip ediyorsunuz? En az {SINIRLAR.aciklama.en_az} karakter.
         </p>
         <textarea
@@ -282,7 +297,7 @@ export default function BasvuruFormu() {
           <span id="aciklama-hata" className="font-medium text-red-700">
             {hatalar.aciklama}
           </span>
-          <span className="shrink-0 text-stone-600" aria-hidden="true">
+          <span className="shrink-0 font-mono text-soluk" aria-hidden="true">
             {aciklamaUzunlugu} / {SINIRLAR.aciklama.en_cok}
           </span>
         </div>
@@ -298,8 +313,14 @@ export default function BasvuruFormu() {
         <button
           type="submit"
           aria-disabled={gonderiliyor}
-          className="w-full rounded-md bg-amber-700 px-6 py-3 text-lg font-semibold text-white hover:bg-amber-800 aria-disabled:cursor-wait aria-disabled:opacity-80 sm:w-auto"
+          className="flex w-full items-center justify-center gap-2 rounded-[3px] bg-pas px-7 py-3.5 text-lg font-medium text-white hover:bg-pas-koyu aria-disabled:cursor-wait aria-disabled:opacity-80 sm:w-auto"
         >
+          {gonderiliyor && (
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className="size-5 motion-safe:animate-spin">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" strokeOpacity={0.3} strokeWidth={3} />
+              <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" strokeWidth={3} strokeLinecap="round" />
+            </svg>
+          )}
           {gonderiliyor ? "Gönderiliyor…" : "Talebi gönder"}
         </button>
         <p role="status" className="sr-only">
@@ -307,7 +328,7 @@ export default function BasvuruFormu() {
         </p>
       </div>
 
-      <p className="text-sm text-stone-600">
+      <p className="text-sm text-soluk">
         Bilgileriniz yalnız bu talebe dönüş yapmak için saklanır ve üçüncü kişilerle paylaşılmaz.
       </p>
     </form>

@@ -36,15 +36,130 @@ const ADIMLAR = [
   },
 ];
 
+const SONRAKI = [
+  "Talebiniz kaydedilir, ekranda kayıt numaranız görünür.",
+  "E-postayla size dönüp kısa bir görüşme zamanı belirleriz.",
+  "Görüşmede atölyenize uygun başlangıcı birlikte seçeriz.",
+];
+
+// Giriş bölümündeki örnek ekran: atölye panosu. Kurgusal veri; yalnız ürünün neye benzediğini gösterir.
+type OrnekIs = {
+  no: number;
+  is: string;
+  teslim: string;
+  usta: string;
+  not?: string;
+  asama?: { ad: string; sira: number };
+  bugun?: boolean;
+};
+
+const ASAMA_SAYISI = 5;
+
+const PANO: { durum: string; nokta: string; isler: OrnekIs[] }[] = [
+  {
+    durum: "Bekliyor",
+    nokta: "bg-kenar",
+    isler: [
+      { no: 217, is: "Merdiven korkuluğu", teslim: "11 Eki", usta: "MA", not: "Ölçü alındı" },
+      { no: 218, is: "Vitrin çerçevesi", teslim: "16 Eki", usta: "HK", not: "Cam bekleniyor" },
+    ],
+  },
+  {
+    durum: "Tezgâhta",
+    nokta: "bg-pas",
+    isler: [
+      { no: 214, is: "Mutfak dolabı", teslim: "9 Eki", usta: "HK", asama: { ad: "Montaj", sira: 3 } },
+      { no: 209, is: "Ceviz yemek masası", teslim: "15 Eki", usta: "MA", asama: { ad: "Zımpara", sira: 2 } },
+    ],
+  },
+  {
+    durum: "Teslime hazır",
+    nokta: "bg-yesil",
+    isler: [{ no: 211, is: "Koltuk döşeme 3+1", teslim: "bugün", usta: "SD", bugun: true }],
+  },
+];
+
+// Kâğıt yaprağı: ince kenar ve düz, kaydırılmış gölge.
+const YAPRAK = "border border-cizgi bg-white shadow-[6px_6px_0_0_var(--color-kagit-koyu)]";
+
+function Logo() {
+  return <span className="font-serif text-2xl font-semibold tracking-tight text-murekkep">Tezgâh</span>;
+}
+
+function IsKarti({ s }: { s: OrnekIs }) {
+  const { asama } = s;
+  return (
+    <div
+      className={`rounded-[3px] border bg-white p-2.5 sm:p-3 ${s.bugun ? "border-pas shadow-[inset_3px_0_0_var(--color-pas)]" : "border-cizgi"}`}
+    >
+      <div className="font-mono text-[10px] text-soluk">#{s.no}</div>
+      <div className="mt-0.5 text-xs leading-snug font-medium sm:text-[13px]">{s.is}</div>
+      {asama && (
+        <div className="mt-2.5">
+          <div className="flex gap-0.5">
+            {Array.from({ length: ASAMA_SAYISI }, (_, i) => (
+              <span key={i} className={`h-1 flex-1 rounded-full ${i < asama.sira ? "bg-pas" : "bg-kagit-koyu"}`} />
+            ))}
+          </div>
+          <div className="mt-1 text-[11px] text-soluk">
+            {asama.ad} · {asama.sira}/{ASAMA_SAYISI}
+          </div>
+        </div>
+      )}
+      {s.not && <div className="mt-1 text-[11px] text-soluk">{s.not}</div>}
+      <div className="mt-2.5 flex items-center justify-between gap-1">
+        <span className={`font-mono text-[10px] ${s.bugun ? "font-medium text-pas" : "text-soluk"}`}>
+          {s.bugun ? "teslim bugün" : s.teslim}
+        </span>
+        <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-kagit-koyu font-mono text-[9px]">
+          {s.usta}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function OrnekEkran() {
+  return (
+    <figure className="lg:pl-4">
+      <div
+        role="img"
+        aria-label="Örnek ekran: atölye panosu. İşler bekliyor, tezgâhta ve teslime hazır sütunlarında duruyor; her kartta işin aşaması, teslim tarihi ve sorumlu usta görünür."
+        className={YAPRAK}
+      >
+        <div className="flex items-baseline justify-between gap-4 border-b border-cizgi px-4 py-3.5 sm:px-5">
+          <span className="font-serif text-lg sm:text-xl">Atölye panosu</span>
+          <span className="font-mono text-[11px] text-soluk sm:text-xs">6 Eki · 5 açık iş</span>
+        </div>
+        <div className="grid grid-cols-3 gap-2 bg-kagit p-2.5 sm:gap-3 sm:p-4">
+          {PANO.map((sutun) => (
+            <div key={sutun.durum} className="flex flex-col gap-2">
+              <div className="flex items-center gap-1.5 px-0.5 pb-0.5 text-[11px] leading-tight font-medium sm:text-xs">
+                <span className={`size-1.5 shrink-0 rounded-full ${sutun.nokta}`} />
+                <span>{sutun.durum}</span>
+                <span className="ml-auto font-mono text-soluk">{sutun.isler.length}</span>
+              </div>
+              {sutun.isler.map((s) => (
+                <IsKarti key={s.no} s={s} />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+      <figcaption className="mt-4 font-mono text-xs text-soluk">Örnek ekran · kurgusal veri</figcaption>
+    </figure>
+  );
+}
+
 export default function Sayfa() {
   return (
     <>
-      <header className="border-b border-stone-200 bg-white">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
-          <span className="text-xl font-bold tracking-tight text-stone-900">Tezgâh</span>
+      <header className="border-b border-cizgi">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-5 sm:px-6">
+          <Logo />
           <a
             href="#basvuru"
-            className="rounded-md px-3 py-2 text-sm font-semibold text-amber-800 underline-offset-4 hover:underline"
+            className="font-medium text-pas underline decoration-1 underline-offset-4 hover:text-pas-koyu"
           >
             Ön görüşme iste
           </a>
@@ -52,101 +167,129 @@ export default function Sayfa() {
       </header>
 
       <main id="icerik" tabIndex={-1} className="flex-1">
-        <section aria-labelledby="ana-baslik" className="bg-white">
-          <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
-            <p className="text-sm font-semibold uppercase tracking-wide text-amber-800">
-              Küçük üretim atölyeleri için dijital iş takibi
-            </p>
-            <h1 id="ana-baslik" className="mt-3 max-w-3xl text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
-              İşlerinizi defterden çıkarın, tek ekrandan takip edin.
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg text-stone-700">
-              Tezgâh; marangoz, metal, döşeme ve benzeri küçük atölyelerde siparişleri, aşamaları ve teslim
-              tarihlerini tek yerde toplar. Kurulumu ve aktarımı biz yaparız, ekibiniz yalnız kullanır.
-            </p>
-            <a
-              href="#basvuru"
-              className="mt-8 inline-block rounded-md bg-amber-700 px-6 py-3 text-lg font-semibold text-white hover:bg-amber-800"
-            >
-              Ücretsiz ön görüşme isteyin
-            </a>
+        <section aria-labelledby="ana-baslik">
+          <div className="mx-auto grid max-w-6xl items-center gap-14 px-4 pt-14 pb-20 sm:px-6 sm:pt-20 sm:pb-28 lg:grid-cols-[1.15fr_1fr]">
+            <div>
+              <p className="font-mono text-sm text-soluk">Küçük üretim atölyeleri için dijital iş takibi</p>
+              <h1
+                id="ana-baslik"
+                className="mt-5 font-serif text-[2.6rem] leading-[1.08] font-normal tracking-tight text-balance sm:text-6xl"
+              >
+                İşlerinizi <em className="text-pas">defterden</em> çıkarın, tek ekrandan takip edin.
+              </h1>
+              <p className="mt-7 max-w-lg text-lg text-pretty text-soluk">
+                Tezgâh; marangoz, metal, döşeme ve benzeri küçük atölyelerde siparişleri, aşamaları ve teslim
+                tarihlerini tek yerde toplar. Kurulumu ve aktarımı biz yaparız, ekibiniz yalnız kullanır.
+              </p>
+              <div className="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
+                <a
+                  href="#basvuru"
+                  className="rounded-[3px] bg-pas px-6 py-3.5 text-lg font-medium text-white hover:bg-pas-koyu"
+                >
+                  Ücretsiz ön görüşme isteyin
+                </a>
+                <a
+                  href="#nasil"
+                  className="font-medium underline decoration-cizgi decoration-2 underline-offset-4 hover:decoration-murekkep"
+                >
+                  Nasıl çalışır?
+                </a>
+              </div>
+            </div>
+            <OrnekEkran />
           </div>
         </section>
 
-        <section aria-labelledby="sorun-baslik">
-          <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
-            <h2 id="sorun-baslik" className="text-2xl font-bold text-stone-900 sm:text-3xl">
+        <section aria-labelledby="sorun-baslik" className="border-t border-cizgi">
+          <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1fr_2fr]">
+            <h2 id="sorun-baslik" className="font-serif text-3xl tracking-tight sm:text-4xl">
               Tanıdık geliyor mu?
             </h2>
-            <ul className="mt-6 space-y-3">
+            <ul className="border-t border-cizgi">
               {SORUNLAR.map((s) => (
-                <li key={s} className="flex gap-3 text-stone-800">
-                  <span aria-hidden="true" className="mt-2 size-2 shrink-0 rounded-full bg-amber-700" />
-                  <span>{s}</span>
+                <li key={s} className="border-b border-cizgi py-5 font-serif text-xl leading-snug text-pretty">
+                  {s}
                 </li>
               ))}
             </ul>
           </div>
         </section>
 
-        <section aria-labelledby="fayda-baslik" className="bg-white">
-          <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
-            <h2 id="fayda-baslik" className="text-2xl font-bold text-stone-900 sm:text-3xl">
+        <section aria-labelledby="fayda-baslik" className="border-t border-cizgi">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+            <h2 id="fayda-baslik" className="font-serif text-3xl tracking-tight sm:text-4xl">
               Tezgâh ile ne değişir?
             </h2>
-            <ul className="mt-8 grid gap-6 md:grid-cols-3">
+            <ul className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
               {FAYDALAR.map((f) => (
-                <li key={f.baslik} className="rounded-lg border border-stone-300 p-6">
-                  <h3 className="text-lg font-semibold text-stone-900">{f.baslik}</h3>
-                  <p className="mt-2 text-stone-700">{f.metin}</p>
+                <li key={f.baslik} className="border-t-2 border-murekkep pt-5">
+                  <h3 className="font-serif text-2xl">{f.baslik}</h3>
+                  <p className="mt-3 text-soluk">{f.metin}</p>
                 </li>
               ))}
             </ul>
           </div>
         </section>
 
-        <section aria-labelledby="adim-baslik">
-          <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
-            <h2 id="adim-baslik" className="text-2xl font-bold text-stone-900 sm:text-3xl">
-              Nasıl çalışır?
-            </h2>
-            <ol className="mt-8 grid gap-6 md:grid-cols-3">
+        <section id="nasil" aria-labelledby="adim-baslik" className="bg-kagit-koyu">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+            <div className="grid gap-4 lg:grid-cols-[1fr_2fr] lg:gap-8">
+              <h2 id="adim-baslik" className="font-serif text-3xl tracking-tight sm:text-4xl">
+                Nasıl çalışır?
+              </h2>
+              <p className="max-w-xl text-lg text-soluk">
+                Üç adımda defterden ekrana geçersiniz. Her adımı sizinle birlikte, atölyenizde yaparız.
+              </p>
+            </div>
+            <ol className="mt-12 border-t border-murekkep/25">
               {ADIMLAR.map((a, i) => (
-                <li key={a.baslik} className="flex gap-4">
-                  <span
-                    aria-hidden="true"
-                    className="flex size-10 shrink-0 items-center justify-center rounded-full bg-stone-900 font-bold text-white"
-                  >
+                <li
+                  key={a.baslik}
+                  className="grid gap-x-8 gap-y-2 border-b border-murekkep/25 py-7 sm:grid-cols-[4rem_1fr_2fr] sm:items-baseline"
+                >
+                  <span aria-hidden="true" className="font-serif text-4xl text-pas italic">
                     {i + 1}
                   </span>
-                  <div>
-                    <h3 className="text-lg font-semibold text-stone-900">{a.baslik}</h3>
-                    <p className="mt-1 text-stone-700">{a.metin}</p>
-                  </div>
+                  <h3 className="font-serif text-2xl">{a.baslik}</h3>
+                  <p className="text-soluk">{a.metin}</p>
                 </li>
               ))}
             </ol>
           </div>
         </section>
 
-        <section id="basvuru" aria-labelledby="basvuru-baslik" className="scroll-mt-4 bg-white">
-          <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
-            <h2 id="basvuru-baslik" className="text-2xl font-bold text-stone-900 sm:text-3xl">
-              Ön görüşme talebi
-            </h2>
-            <p className="mt-3 text-stone-700">
-              Atölyenizi kısaca anlatın; size uygun başlangıcı konuşmak için e-postayla dönelim.
-            </p>
-            <div className="mt-8">
+        <section id="basvuru" aria-labelledby="basvuru-baslik">
+          <div className="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 sm:py-24 lg:grid-cols-[1fr_1.45fr]">
+            <div>
+              <h2 id="basvuru-baslik" className="font-serif text-3xl tracking-tight sm:text-4xl">
+                Ön görüşme talebi
+              </h2>
+              <p className="mt-4 text-lg text-soluk">
+                Atölyenizi kısaca anlatın; size uygun başlangıcı konuşmak için e-postayla dönelim.
+              </p>
+              <h3 className="mt-10 font-mono text-sm text-soluk">Sonra ne olur?</h3>
+              <ol className="mt-4 border-t border-cizgi">
+                {SONRAKI.map((s, i) => (
+                  <li key={s} className="flex gap-4 border-b border-cizgi py-3.5">
+                    <span aria-hidden="true" className="font-mono text-sm text-pas">
+                      {i + 1}.
+                    </span>
+                    <span>{s}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <div className={`${YAPRAK} p-5 sm:p-10`}>
               <BasvuruFormu />
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-stone-200">
-        <div className="mx-auto max-w-5xl px-4 py-8 text-sm text-stone-600 sm:px-6">
-          <p>
+      <footer className="border-t border-cizgi">
+        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-8 text-sm text-soluk sm:px-6 md:flex-row md:items-baseline md:justify-between">
+          <Logo />
+          <p className="max-w-xl">
             Tezgâh kurgusal bir hizmettir; bu sayfa bir teknik değerlendirme ödevi için hazırlanmıştır. Forma gerçek
             kişisel bilgi girmeyin.
           </p>
