@@ -2,7 +2,7 @@
 
 ## Yaklaşım (son sürüm: açık kurumsal)
 
-- **Açık kurumsal.** Beyaz zemin, lacivert başlık ve yazı, tek vurgu rengi (turuncu). Fayda bölümü ve alt bilgi
+- **Açık kurumsal.** Beyaz zemin, lacivert başlık ve yazı, tek vurgu rengi (mavi). Fayda bölümü ve alt bilgi
   lacivert bant. Kartlarda ince kenar ve yumuşak gölge.
 - **Yapışkan üst menü:** Sorun · Çözüm · Ekranlar · Nasıl çalışır · SSS ve "Ön görüşme iste" düğmesi.
   Mobilde menü gizli, düğme görünür (açılır menü için JavaScript gerekmesin diye). Bölümler alt bilgide de listeli.
@@ -14,7 +14,8 @@
 Süreç (AI_LOG zaman çizelgesi): ilk sade sürüm 14.51 → Emir "daha güzel, abartmadan" (16.03) →
 "yapay zekâ yapmış gibi durmasın" (16.13) → kâğıt/mürekkep sürümü (`6265bee`) → ChatGPT talimatıyla
 3 yeni ürün ekranı ve bölüm sırası (`3dc249c`) → Emir "içime sinmedi, daha kurumsal" (17.36) →
-açık kurumsal sürüm ayrı dalda yapıldı, Emir yerelde baktı ve seçti (17.58, K33).
+açık kurumsal sürüm ayrı dalda yapıldı, Emir yerelde baktı ve seçti (17.58, K33) → Emir: turuncu yerine
+mavi, aşama çubukları neon mavi (18.05–18.09) → Emir beğendi, asıl tasarım (18.14, K34).
 
 ## Bölüm sırası
 
@@ -52,9 +53,12 @@ Hepsi aynı kurgusal işleri gösterir (#209, #211, #214, #217, #218), böylece 
 
 - axe (WCAG 2.2 AA) e2e'de 3 durumda, iki ekranda: ihlal 0.
 - Renk karşıtlığı (WCAG formülüyle hesaplandı): metin beyazda 17.28:1; soluk metin beyazda 7.34:1,
-  açık gride 6.78:1; turuncu düğmede beyaz yazı 5.18:1; lacivert bantta beyaz 14.52:1, soluk yazı 8.23:1,
-  açık turuncu 8.61:1. Hepsi 4.5:1'in üstünde. Turuncu lacivert üstünde 2.80:1 kalıyor; bu yüzden lacivert
-  bölümlerde turuncu yazı ve odak çizgisi yerine açık turuncu kullanılır.
+  açık gride 6.78:1; mavi düğmede beyaz yazı 6.70:1 (üzerine gelince 8.72:1); mavi yazı beyazda 6.70:1,
+  en koyu gride 5.69:1; lacivert bantta beyaz 14.52:1, soluk yazı 8.23:1, açık mavi 8.05:1. Hepsi 4.5:1'in
+  üstünde. Mavi lacivert üstünde 2.17:1 kalıyor; bu yüzden lacivert bölümlerde mavi yazı ve odak çizgisi
+  yerine açık mavi kullanılır.
+- **Aşama çubuğu (örnek ekranlarda):** neon mavi (`#0047ff`, %90, hafif parlama), boş kısım %12 saydam.
+  Süstür; aşama hemen altında yazıyla da yazılı ("Montaj · 3/5"), renk tek başına bilgi taşımaz.
 - Görünür odak çizgisi (3 px). Yapışkan menü odaktaki öğeyi örtmesin diye `scroll-padding-top`.
 - "İçeriğe geç" bağlantısı, yalnız klavyeyle tam akış (e2e).
 - Sık sorulan sorular tarayıcının kendi `<details>` öğesi: JavaScript'siz, klavyeyle açılır (e2e).

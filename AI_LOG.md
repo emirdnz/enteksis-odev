@@ -107,7 +107,11 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | 17.55 | **Emir:** ekranında sıcak renk ayarı açıkmış, mevcut tasarım da güzel; teslim edelim → yeni tasarım durduruldu, yarım hali dalda saklandı | Claude Code |
 | 17.56–17.58 | **Emir:** yerelde göster → ana sayfa yeni tasarımla yazıldı, yerel sunucuda açıldı. **Emir (17.58):** "çok güzel olmuş, bu tasarıma geçelim" (K33). "Başa dön" daha önce yaptığı bir sitedeki gibi olsun → o site bu oturumda açılmadı (proje dışı); yaygın biçim seçildi: sağ altta, kaydırınca beliren yuvarlak düğme | Emir · Claude Code |
 | 17.59–18.01 | "Başa dön" düğmesi, sık sorulan sorular testi; ekran görüntülerinde iki kusur bulundu ve düzeltildi; tam test; ölçüm | Claude Code |
-| 18.02– | Belgeler yeni tasarıma göre; commit; gönderme Emir'e soruldu | Claude Code |
+| 18.02–18.04 | Belgeler yeni tasarıma göre; tam test; commit `990887d` (gönderilmedi) | Claude Code |
+| 18.03–18.06 | **Emir** yerelde son kez baktı: turuncu yerine mavi (18.05); örnek ekranlardaki aşama çubukları neon mavi (18.05); daha koyu, daha neon, hafif saydam (18.06) → vurgu `#1d4ed8`, çubuk ayrı neon renk; e2e 40/40 (18.06) | Emir · Claude Code |
+| 18.09–18.13 | **Emir:** "bir tane hatamız var", aşama çubukları istediği gibi olmadı → hata tarayıcı eklentisinden (Hatalar); çubuk koyu elektrik mavisi `#0047ff`, güçlü parlama, biraz kalın; dört seçenek yan yana denendi | Claude Code |
+| 18.14 | **Emir:** tasarımı beğendi; asıl tasarım olsun, GitHub'a gönderilsin, canlıya alınsın; sonra bilgisayar ve telefonda kendisi test edip teslim edecek (K34) | Emir |
+| 18.15– | Tam test, belgeler, commit, gönderme, canlı kontrol | Claude Code |
 
 ## Karar kaydı
 
@@ -146,6 +150,7 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | K31 | Yazı tipleri | Küçültülmedi | Ölçümde en büyük yük (375 KB). Küçültmek görünümü değiştirir; teslimden önce kapsam dışı. `docs/TASARIM-RAPORU.md`'de yazılı |
 | K32 | Yeniden tasarım | Çalışan sürüm önce gönderilir. "Açık kurumsal" tasarım (beyaz zemin, lacivert, tek vurgu, üst menü, sık sorulan sorular) ayrı dalda yapılır; Emir beğenirse ana dala geçer | Emir (17.36–17.42): "puan için değil, içime sinmesi için". Görev stil belirtmiyor; teslim süre bitene kadar güncellenebiliyor. Sıra önerisi Claude Code'un |
 | K33 | Tasarım geçişi | Açık kurumsal tasarım ana dala alınır. K30'un kâğıt/mürekkep görünümü bırakılır; 4 örnek ekran ve bölüm sırası kalır, sık sorulan sorular eklenir. "Başa dön" sağ altta yuvarlak düğme | Emir yerelde baktı (17.58): "çok güzel olmuş, bu tasarıma geçelim". Yazı tipi yükü 375.1 → 101.5 KB, K31'deki bulgu kapandı |
+| K34 | Renk | Vurgu turuncu yerine mavi (`#1d4ed8`). Örnek ekranlardaki aşama çubuğu ayrı neon mavi (`#0047ff`, %90, parlama) | Emir istedi (18.05–18.09), beğendi (18.14). Mavi beyazda 6.70:1. Çubuk süs; aşama yanında yazıyla da yazılı |
 
 ## Doğrulama
 
@@ -193,6 +198,8 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | Renk karşıtlığı, yeni tasarım (17.49–17.55) | WCAG formülüyle hesap | Metin/beyaz 17.28; soluk/beyaz 7.34; beyaz/turuncu 5.18; beyaz/lacivert 14.52; açık turuncu/lacivert 8.61. Turuncu/lacivert 2.80 → lacivert bölümlerde kullanılmadı |
 | Yeni tasarım, tam koşu (18.00–18.01) | `npm run lint`, `npx tsc --noEmit`, `npm test`, `npx playwright test` (derleme dahil) | lint 0; tip 0; 26/26; 40/40 (yeni: sık sorulan sorular × 2; "Başa dön" testi düğmeye göre yenilendi) |
 | Yeni tasarım, görünüm (18.00) | Ekran görüntüsü 390×844 (üst, alt) ve 1280×800 (SSS) | İki kusur bulundu, düzeltildi: mobilde düğme alt bilgi metnini örtüyordu (son satıra boşluk); yarı saydam menünün arkasında yazı silik görünüyordu (düz beyaz). Sonra tam koşu yine 40/40 |
+| Renk karşıtlığı, mavi (18.16) | WCAG formülüyle hesap | Beyaz/mavi 6.70; mavi/açık gri 6.19; mavi/en koyu gri 5.69; beyaz/koyu mavi (üzerine gelince) 8.72; açık mavi/lacivert 8.05. Mavi/lacivert 2.17 → lacivert bölümlerde açık mavi |
+| Mavi ve neon çubuk, tam koşu (18.15–18.16) | `npm run lint`, `npx tsc --noEmit`, `npx vitest run`, `npx playwright test` (derleme dahil) | lint 0; tip 0; 26/26; 40/40 |
 | Ölçüm, yeni tasarım (18.01) | `node scripts/olc.mjs` | Yazı tipi 101.5 KB (önce 375.1); JS 222.9 KB (+0.5); HTML gzip 17.4 KB; CLS 0; sayfa statik |
 
 ## Hatalar ve düzeltmeler
@@ -233,6 +240,7 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | Taşıma sonrası artık bileşen (17.00) | `page.tsx`'te kullanılmayan `IsKarti` kalmıştı | Silindi; tip ve lint temiz |
 | Uzun AI_LOG değişikliği kabukta tırnak hatası verdi (17.13) | Tek satırlık kabuk komutunda | Betik dosyaya yazılıp çalıştırıldı |
 | Göç komutu ilk denemede çalışmadı (17.20) | Komutun sonunda fazladan nokta (`db:goc.`); npm betiği bulamadı | Hiçbir şey değişmedi; noktasız komutla yeniden çalıştırıldı |
+| Yerelde "1 Issue" uyarısı (18.09) | Geliştirme sunucusu: React, sunucu ve tarayıcıdaki sayfa uyuşmuyor dedi. Sebep Emir'in tarayıcısındaki renk seçici eklentisi; `<body>`'ye kendi özniteliğini ekliyordu. Bizim koddan değil; eklentisiz tarayıcıda konsol temiz | `layout.tsx`'te `<body suppressHydrationWarning>`: yalnız body'nin kendi özniteliklerindeki farkı yok sayar |
 | Neon proje kimliği kayıtta maskesizdi (17.45'te bulundu) | 14.41'deki `neonctl` çıktısı; kimlik yerel terim listesinde yoktu. Gönderilmiş commit'lerde de var | Terim listesine eklendi, kayıt yeniden maskelendi. Kimlik bağlantı şifresi değil, tek başına erişim vermez; git geçmişi yeniden yazılmadı (yıkıcı işlem) |
 
 ## Bilinen eksikler

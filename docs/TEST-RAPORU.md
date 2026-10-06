@@ -1,7 +1,7 @@
 # Test raporu
 
 Testler sayı için çoğaltılmadı; her biri bir kabul ölçütünü ya da bulunan bir hatayı sınar.
-Son tam koşu: 6 Ekim 2026, 18.01 (birim, lint, tip, derleme, e2e); canlı 17.18 (gönderimden sonra yenilenir). Son doğrulama sonuçları `AI_LOG.md`'de.
+Son tam koşu: 6 Ekim 2026, 18.16 (birim, lint, tip, derleme, e2e); canlı 17.18 (gönderimden sonra yenilenir). Son doğrulama sonuçları `AI_LOG.md`'de.
 
 ## Sayılar
 

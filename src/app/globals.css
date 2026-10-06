@@ -5,7 +5,7 @@
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 }
 
-/* Açık kurumsal: beyaz zemin, lacivert, tek vurgu (turuncu).
+/* Açık kurumsal: beyaz zemin, lacivert, tek vurgu (mavi).
    Metin renkleri beyaz ve açık yüzeyde en az 4.5:1. Lacivert zeminde vurgu yerine vurgu-acik-metin. */
 @theme {
   --color-zemin: #ffffff;
@@ -18,10 +18,12 @@
   --color-lacivert: #13294b;
   --color-lacivert-koyu: #0c1d38;
   --color-koyu-soluk: #b8c4d6;
-  --color-vurgu: #c2410c;
-  --color-vurgu-koyu: #9a3412;
-  --color-vurgu-acik: #fff3eb;
-  --color-vurgu-acik-metin: #fdba74;
+  --color-vurgu: #1d4ed8;
+  --color-vurgu-koyu: #1e40af;
+  --color-vurgu-acik: #eff6ff;
+  --color-vurgu-acik-metin: #93c5fd;
+  /* Yalnız örnek ekranlardaki aşama çubuğu (süs; aşama ayrıca yazıyla da yazılı). */
+  --color-neon: #0047ff;
   --color-yesil: #17663a;
   --color-yesil-acik: #ecf6ef;
 }
@@ -42,7 +44,7 @@ body {
   outline-offset: 2px;
 }
 
-/* Lacivert bölümlerde turuncu çizgi zayıf kalır (2.8:1); açık turuncu 8.6:1. */
+/* Lacivert bölümlerde mavi çizgi zayıf kalır (2.17:1); açık mavi 8.05:1. */
 .koyu :focus-visible {
   outline-color: var(--color-vurgu-acik-metin);
 }

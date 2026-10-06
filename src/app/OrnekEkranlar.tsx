@@ -12,7 +12,14 @@ function AsamaCubugu({ sira }: { sira: number }) {
   return (
     <div className="flex gap-0.5">
       {Array.from({ length: ASAMA_SAYISI }, (_, i) => (
-        <span key={i} className={`h-1 flex-1 rounded-full ${i < sira ? "bg-vurgu" : "bg-yuzey-koyu"}`} />
+        <span
+          key={i}
+          className={`h-2 flex-1 rounded-full ${
+            i < sira
+              ? "bg-neon/90 shadow-[0_0_6px_rgb(0_71_255/0.9),0_0_16px_rgb(0_71_255/0.5)]"
+              : "bg-neon/12"
+          }`}
+        />
       ))}
     </div>
   );

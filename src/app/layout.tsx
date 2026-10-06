@@ -23,7 +23,8 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="tr" className={`${plexSans.variable} ${plexMono.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col">
+      {/* Tarayıcı eklentileri (ör. renk seçici) body etiketine öznitelik ekliyor; React bunu hata sanmasın. */}
+      <body className="flex min-h-full flex-col" suppressHydrationWarning>
         <a
           href="#icerik"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-metin"
