@@ -60,6 +60,17 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | 14.53–14.57 | Playwright + axe e2e testleri (3 hata bulundu, aşağıda); 30/30 | Claude Code |
 | 14.57 | 4 commit (`f1716f2`, `8c92666`, `2294e1e`, `a5a04db`) ve GitHub'a gönderim | Claude Code |
 | 14.58 | README yazıldı, AI_LOG güncellendi. Netlify içe aktarımı Emir'de bekliyor | Claude Code |
+| 15.00 | Kişisel bilgi olayı fark edildi ve düzeltildi (aşağıda, Hatalar); `be44554` | Claude Code |
+| 15.07 | Emir Netlify'da siteyi repodan içe aktardı; `main@be44554` 35 sn'de yayınlandı | Emir |
+| 15.08–15.11 | Canlı denetim: sayfa, güvenlik başlıkları, API 405/415/422 doğru. Canlı kayıt 500 döndü, başarı gösterilmedi. Netlify fonksiyon günlüğü ve ortam değişkenleri sayfası salt okunur incelendi: `DATABASE_URL` tanımlı değil | Claude Code |
+| 15.18–15.22 | Bağlantı koptu: Emir'in 3 mesajı cevapsız kaldı; `/clear` ile yeni oturum | — |
+| 15.23–15.27 | Durum bildirimi. Emir değişkeni eklediğini düşünüyordu → yeniden denetim: canlı kayıt yine 500; Netlify'da proje değişkeni yok, tek yayın 15.07; veritabanı tabloları boş (salt okuma) | Claude Code |
+| 15.28–15.33 | Emir değişkeni ekledi. Claude Code değeri ekrana basmadan panoya kopyaladı; Value kutusuna yazmak ona yasak (K21) | Emir + Claude Code |
+| 15.39 | Yeniden yayın: "Deploy project" tıklamasını otomatik güvenlik denetimi engelledi → Emir bastı | Emir |
+| 15.41 | Canlı kayıt yine 500. Netlify fonksiyon günlüğü: değer `DATABASE_URL="…"` biçiminde, yani satırın tamamı yapıştırılmış; sürücü hatası adresi şifresiyle günlüğe yazmış (Hatalar) | Claude Code |
+| 15.45–15.52 | Emir değeri düzeltti (4 yayın bağlamı), yeniden yayınladı | Emir |
+| 15.53 | Canlı test 5/5 geçti (1 bilerek atlandı); veritabanında 1 kurgusal kayıt; hız sınırı anahtarı Netlify başlığından geliyor (yedek değer değil) | Claude Code |
+| 15.54–15.55 | Günlükte bağlantı şifresi maskeleme + birim testi (K22); README'ye canlı adres | Claude Code |
 
 ## Karar kaydı
 
@@ -86,6 +97,7 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | K19 | E2E ve veritabanı | Yerel e2e sunucusu bilerek ulaşılamayan veritabanı adresiyle açılır; canlı test yalnız `CANLI_URL` ile, tek kurgusal kayıt | Claude Code önerdi. Testler gerçek veriye dokunmaz ve "kayıt yazılamazsa başarı yok" kuralı gerçek sunucuda sınanır |
 | K20 | Neon agent skills / MCP | Kurulmadı | Otomatik güvenlik denetimi global kurulumu engelledi. `npx neonctl` işi görüyor; projeye bağımlılık eklemiyor |
 | K21 | Netlify girişi ve `DATABASE_URL` | Emir yapar | Claude Code'un güvenlik kuralı hesaba girişi ve gizli değeri forma yazmayı yasaklıyor; ayrıca otomatik denetim `netlify login`'i engelledi |
+| K22 | Sunucu günlüğü | Hata mesajındaki bağlantı adresinin kullanıcı adı ve şifresi `//***@` ile maskelenir (`gunlukIcinTemizle`) | Claude Code önerdi. Canlıda sürücü hatası adresi şifresiyle birlikte günlüğe yazdı; günlük özel olsa da şifre orada durmamalı |
 
 ## Doğrulama
 
@@ -102,6 +114,10 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | Derleme | `npm run build` | Geçti; `/` statik, `/api/basvuru` dinamik |
 | E2E | `npx playwright test` (15 test × mobil 390×844 + masaüstü 1280×800, axe WCAG 2.2 AA) | 30/30 |
 | Commit öncesi tarama | `ai-log/` ve `AI_LOG.md`'de bağlantı adresi, parola, `npg_`/`ghp_`/`nfp_`/`sk-` token, e-posta, kullanıcı klasörü | Gizli değer 0. `sk-` eşleşmeleri "ta**sk-**id" (yanlış alarm). Neon proje ve organizasyon kimliği var: gizli değil, erişim vermez |
+| Canlı (ilk yayın, 15.08) | `curl` ile `/` ve `/api/basvuru`; `CANLI_URL=https://enteksisodev.netlify.app npx playwright test` | Sayfa 200, güvenlik başlıkları var, `x-powered-by` yok; API GET 405, form-urlencoded 415, geçersiz 422. Playwright: 4 geçti, 1 atlandı (mobilde kayıt bilerek yok), 1 düştü (canlı kayıt → 500, nedeni Hatalar'da) |
+| Canlı (değişken düzeltildikten sonra, 15.53) | `CANLI_URL=… npx playwright test tests/e2e/canli.spec.ts`; veritabanında salt okuma sorgusu | 5 geçti, 1 atlandı. `basvurular`: 1 satır. `hiz_siniri` anahtarı "yerel" yedeğinin özeti değil → `x-nf-client-connection-ip` başlığı geliyor, ziyaretçiler ayrı sayılıyor |
+| Maskeleme düzeltmesinden sonra | `npx vitest run`, `npm run lint`, `npm run build`, `npx playwright test` | 19/19, 0 uyarı, geçti, 30/30 |
+| Kayıt dosyalarında şifre | `ai-log/` ve `AI_LOG.md`'de genel desenle (`npg_…`, `postgresql://kullanıcı:şifre@`) tarama; aranan değer komuta yazılmadı | 0 eşleşme |
 
 ## Hatalar ve düzeltmeler
 
@@ -125,6 +141,11 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | E2E: 8 test "strict mode violation" | Next.js'in sayfa duyurucusu da `role="alert"` taşıyor; seçici iki öğe buldu | Seçici formun içiyle sınırlandı. Uygulama hatası değildi |
 | Lint uyarısı: radyo düğmesinde `aria-invalid` desteklenmiyor | `BasvuruFormu.tsx` | Kaldırıldı; hata metni `fieldset`'e `aria-describedby` ile bağlı |
 | **Kişisel bilgi public repoya gitti (15.00):** Claude Code'un kişisel bilgi tarama komutu, aranan e-posta kullanıcı adını desen olarak içeriyordu; komut kayda düştü. Tarama eşleşme bulduğu hâlde aynı komut zinciri durmadan commit'leyip gönderdi (`c33e7f4`) | Tarama ile commit tek komutta zincirlenmişti; arada kontrol yoktu. Hook bu terimi maskelemiyordu | Hook'a gitignore'lu yerel terim listesiyle maskeleme ve `yeniden-maskele` komutu eklendi; eski kayıtlar yeniden maskelendi (0 eşleşme). Tarama ve commit artık ayrı adım. `c33e7f4` geçmişte duruyor; geçmişi yeniden yazmak Emir'in kararı |
+| Canlı kayıt 500 "Talebiniz şu an kaydedilemedi" (15.08) | Netlify: proje ortam değişkeni yok. Günlük: `[basvuru] kaydedilemedi: Error: DATABASE_URL tanımlı değil`. Veritabanında `basvurular` ve `hiz_siniri` boş, yani istek veritabanına hiç ulaşmadı | Gizli değeri forma Claude Code yazamaz (K21). Emir değişkeni ekleyip yeniden yayınlayacak. Olumlu yan: "kayıt yazılmadıysa başarı yok" kuralı canlıda da tuttu |
+| Değişken eklendi sanıldı, eklenmemişti (15.23) | Netlify: proje değişkeni yoktu, tek yayın 15.07 | Yeniden denetlendi, Emir ekledi |
+| Değer yanlış biçimde kaydedildi (15.41) | Value kutusuna `.env.local` satırının tamamı (`DATABASE_URL="…"`) girildi; sürücü "not a valid URL" dedi | Emir 4 bağlamda değeri düzeltti; Claude Code doğru değeri panoya koydu ve biçimini (başı `postgresql://`, tırnak yok) ekrana basmadan denetledi |
+| **Şifre sunucu günlüğüne yazıldı (15.41):** sürücü hatası bağlantı adresini olduğu gibi içeriyordu, kod mesajı günlüğe aynen yazıyordu | `src/lib/basvuru-isle.ts`. Netlify günlüğü yalnız hesap sahibine açık, 24 saat tutulur; public değil | K22: maskeleme + birim testi. Public kayıt dosyaları tarandı: 0 eşleşme |
+| Talimatlar Emir'e karışık geldi | Claude Code'un adım listeleri uzundu, "Value" kutusunun ne olduğu anlatılmamıştı | Adımlar tek kutu, tek düğmeye indirildi; menüler Emir'e açık hâlde bırakıldı |
 
 ## Bilinen eksikler
 
