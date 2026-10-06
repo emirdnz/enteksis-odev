@@ -59,6 +59,34 @@ test("başarılı gönderim: gönderiliyor durumu, tek istek, kayıt numarası",
   await expect(a.isim).toHaveValue("");
 });
 
+test("aynı anda iki gönderim (ör. çift Enter) tek istek açar", async ({ page }) => {
+  let istekSayisi = 0;
+  await page.route("**/api/basvuru", async (route) => {
+    istekSayisi++;
+    await json(route, 201, { durum: "kaydedildi", kayitNo: 7 });
+  });
+  await formuDoldur(page);
+  // İkisi aynı görevde: ekran "gönderiliyor"a geçmeden ikinci gönderim gelir.
+  await page.evaluate(() => {
+    const form = document.querySelector("form")!;
+    form.requestSubmit();
+    form.requestSubmit();
+  });
+  await expect(alanlar(page).basari).toBeVisible();
+  expect(istekSayisi).toBe(1);
+});
+
+test("içerik güvenliği politikası sayfada hiçbir şeyi engellemiyor", async ({ page }) => {
+  const ihlaller: string[] = [];
+  page.on("console", (m) => {
+    if (/Content.Security.Policy/i.test(m.text())) ihlaller.push(m.text());
+  });
+  await page.reload();
+  await formuDoldur(page); // form çalışıyorsa Next.js betikleri yüklenmiş demektir
+  await expect(alanlar(page).gonder).toBeEnabled();
+  expect(ihlaller).toEqual([]);
+});
+
 test("istemci doğrulaması: hatalı form sunucuya gitmez, ilk hatalı alana odaklanır", async ({ page }) => {
   let istekSayisi = 0;
   await page.route("**/api/basvuru", (route) => {

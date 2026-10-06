@@ -33,6 +33,9 @@ export default function BasvuruFormu() {
   const alanlar = useRef<Partial<Record<AlanAdi, HTMLElement | null>>>({});
   const tuzak = useRef<HTMLInputElement>(null);
   const basari = useRef<HTMLDivElement>(null);
+  // Aynı anda gelen iki gönderimi (çift Enter, çift tıklama) durdurur. Durum değişkeni yetmez:
+  // ekran "gönderiliyor"a geçmeden ikinci olay eski değeri görür.
+  const kilit = useRef(false);
 
   const gonderiliyor = durum.tur === "gonderiliyor";
 
@@ -68,7 +71,7 @@ export default function BasvuruFormu() {
 
   async function gonder(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (gonderiliyor) return;
+    if (kilit.current) return;
 
     const s = dogrula(degerler);
     if (!s.gecerli) {
@@ -78,6 +81,7 @@ export default function BasvuruFormu() {
       return;
     }
 
+    kilit.current = true;
     setHatalar({});
     setDurum({ tur: "gonderiliyor" });
 
@@ -115,6 +119,8 @@ export default function BasvuruFormu() {
           ? "Sunucu zamanında yanıt vermedi. Talebiniz kaydedilmiş olabilir; tekrar göndermeden önce birkaç dakika bekleyin."
           : "Bağlantı kurulamadı. İnternet bağlantınızı kontrol edip tekrar deneyin.",
       });
+    } finally {
+      kilit.current = false;
     }
   }
 

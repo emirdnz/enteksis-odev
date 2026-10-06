@@ -54,4 +54,8 @@ test("güvenlik başlıkları", async ({ request }) => {
   expect(b["x-frame-options"]).toBe("DENY");
   expect(b["referrer-policy"]).toBe("strict-origin-when-cross-origin");
   expect(b["x-powered-by"]).toBeUndefined();
+  const csp = b["content-security-policy"];
+  expect(csp).toContain("default-src 'self'");
+  expect(csp).toContain("frame-ancestors 'none'");
+  expect(csp).not.toContain("unsafe-eval"); // yalnız geliştirme sunucusunda
 });
