@@ -1,9 +1,17 @@
 import BasvuruFormu from "./BasvuruFormu";
+import { AtolyePanosu, Ekranlar, YAPRAK } from "./OrnekEkranlar";
 
 const SORUNLAR = [
   "Hangi işin hangi aşamada olduğunu öğrenmek için ustaya sormanız gerekiyor.",
   "Sipariş, ölçü ve teslim tarihi aynı deftere karışık yazılıyor; defter kaybolursa iş de kayboluyor.",
   "Müşteri aradığında cevap vermek için atölyeye inip bakmak zorunda kalıyorsunuz.",
+];
+
+const IS_YOLU = [
+  { baslik: "Sipariş yazılır", metin: "Ofis işi bir kez açar: müşteri, ölçü, teslim tarihi, sorumlu usta." },
+  { baslik: "Tezgâha girer", metin: "Usta işi alır; iş panoda “Tezgâhta” sütununa geçer." },
+  { baslik: "Aşamalar işaretlenir", metin: "Her aşama bitince usta telefondan işaretler; ofis aynı anda görür." },
+  { baslik: "Teslim edilir", metin: "Hazır iş teslim planında günüyle durur; sıkışan iş önceden belli olur." },
 ];
 
 const FAYDALAR = [
@@ -42,113 +50,8 @@ const SONRAKI = [
   "Görüşmede atölyenize uygun başlangıcı birlikte seçeriz.",
 ];
 
-// Giriş bölümündeki örnek ekran: atölye panosu. Kurgusal veri; yalnız ürünün neye benzediğini gösterir.
-type OrnekIs = {
-  no: number;
-  is: string;
-  teslim: string;
-  usta: string;
-  not?: string;
-  asama?: { ad: string; sira: number };
-  bugun?: boolean;
-};
-
-const ASAMA_SAYISI = 5;
-
-const PANO: { durum: string; nokta: string; isler: OrnekIs[] }[] = [
-  {
-    durum: "Bekliyor",
-    nokta: "bg-kenar",
-    isler: [
-      { no: 217, is: "Merdiven korkuluğu", teslim: "11 Eki", usta: "MA", not: "Ölçü alındı" },
-      { no: 218, is: "Vitrin çerçevesi", teslim: "16 Eki", usta: "HK", not: "Cam bekleniyor" },
-    ],
-  },
-  {
-    durum: "Tezgâhta",
-    nokta: "bg-pas",
-    isler: [
-      { no: 214, is: "Mutfak dolabı", teslim: "9 Eki", usta: "HK", asama: { ad: "Montaj", sira: 3 } },
-      { no: 209, is: "Ceviz yemek masası", teslim: "15 Eki", usta: "MA", asama: { ad: "Zımpara", sira: 2 } },
-    ],
-  },
-  {
-    durum: "Teslime hazır",
-    nokta: "bg-yesil",
-    isler: [{ no: 211, is: "Koltuk döşeme 3+1", teslim: "bugün", usta: "SD", bugun: true }],
-  },
-];
-
-// Kâğıt yaprağı: ince kenar ve düz, kaydırılmış gölge.
-const YAPRAK = "border border-cizgi bg-white shadow-[6px_6px_0_0_var(--color-kagit-koyu)]";
-
 function Logo() {
   return <span className="font-serif text-2xl font-semibold tracking-tight text-murekkep">Tezgâh</span>;
-}
-
-function IsKarti({ s }: { s: OrnekIs }) {
-  const { asama } = s;
-  return (
-    <div
-      className={`rounded-[3px] border bg-white p-2.5 sm:p-3 ${s.bugun ? "border-pas shadow-[inset_3px_0_0_var(--color-pas)]" : "border-cizgi"}`}
-    >
-      <div className="font-mono text-[10px] text-soluk">#{s.no}</div>
-      <div className="mt-0.5 text-xs leading-snug font-medium sm:text-[13px]">{s.is}</div>
-      {asama && (
-        <div className="mt-2.5">
-          <div className="flex gap-0.5">
-            {Array.from({ length: ASAMA_SAYISI }, (_, i) => (
-              <span key={i} className={`h-1 flex-1 rounded-full ${i < asama.sira ? "bg-pas" : "bg-kagit-koyu"}`} />
-            ))}
-          </div>
-          <div className="mt-1 text-[11px] text-soluk">
-            {asama.ad} · {asama.sira}/{ASAMA_SAYISI}
-          </div>
-        </div>
-      )}
-      {s.not && <div className="mt-1 text-[11px] text-soluk">{s.not}</div>}
-      <div className="mt-2.5 flex items-center justify-between gap-1">
-        <span className={`font-mono text-[10px] ${s.bugun ? "font-medium text-pas" : "text-soluk"}`}>
-          {s.bugun ? "teslim bugün" : s.teslim}
-        </span>
-        <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-kagit-koyu font-mono text-[9px]">
-          {s.usta}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-function OrnekEkran() {
-  return (
-    <figure className="lg:pl-4">
-      <div
-        role="img"
-        aria-label="Örnek ekran: atölye panosu. İşler bekliyor, tezgâhta ve teslime hazır sütunlarında duruyor; her kartta işin aşaması, teslim tarihi ve sorumlu usta görünür."
-        className={YAPRAK}
-      >
-        <div className="flex items-baseline justify-between gap-4 border-b border-cizgi px-4 py-3.5 sm:px-5">
-          <span className="font-serif text-lg sm:text-xl">Atölye panosu</span>
-          <span className="font-mono text-[11px] text-soluk sm:text-xs">6 Eki · 5 açık iş</span>
-        </div>
-        <div className="grid grid-cols-3 gap-2 bg-kagit p-2.5 sm:gap-3 sm:p-4">
-          {PANO.map((sutun) => (
-            <div key={sutun.durum} className="flex flex-col gap-2">
-              <div className="flex items-center gap-1.5 px-0.5 pb-0.5 text-[11px] leading-tight font-medium sm:text-xs">
-                <span className={`size-1.5 shrink-0 rounded-full ${sutun.nokta}`} />
-                <span>{sutun.durum}</span>
-                <span className="ml-auto font-mono text-soluk">{sutun.isler.length}</span>
-              </div>
-              {sutun.isler.map((s) => (
-                <IsKarti key={s.no} s={s} />
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-      <figcaption className="mt-4 font-mono text-xs text-soluk">Örnek ekran · kurgusal veri</figcaption>
-    </figure>
-  );
 }
 
 export default function Sayfa() {
@@ -196,7 +99,7 @@ export default function Sayfa() {
                 </a>
               </div>
             </div>
-            <OrnekEkran />
+            <AtolyePanosu />
           </div>
         </section>
 
@@ -212,6 +115,54 @@ export default function Sayfa() {
                 </li>
               ))}
             </ul>
+          </div>
+        </section>
+
+        <section aria-labelledby="cozum-baslik" className="border-t border-cizgi">
+          <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1fr_2fr]">
+            <div>
+              <h2 id="cozum-baslik" className="font-serif text-3xl tracking-tight sm:text-4xl">
+                Defter yerine tek ekran
+              </h2>
+              <p className="mt-4 text-lg text-pretty text-soluk">
+                Tezgâh, defterdeki her siparişi bir iş kartına çevirir. Kart, iş bitene kadar ofisle tezgâh arasında
+                aynı bilgiyi taşır.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-mono text-sm text-soluk">Bir işin yolu</h3>
+              <ol className="mt-4 border-t border-cizgi">
+                {IS_YOLU.map((a, i) => (
+                  <li key={a.baslik} className="grid gap-1 border-b border-cizgi py-4 sm:grid-cols-[13rem_1fr] sm:gap-6">
+                    <span className="font-medium">
+                      <span aria-hidden="true" className="mr-2.5 font-mono text-sm text-pas">
+                        {i + 1}
+                      </span>
+                      {a.baslik}
+                    </span>
+                    <span className="text-soluk">{a.metin}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="ekran-baslik" className="border-t border-cizgi">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+            <div className="grid gap-4 lg:grid-cols-[1fr_2fr] lg:gap-8">
+              <h2 id="ekran-baslik" className="font-serif text-3xl tracking-tight sm:text-4xl">
+                Ofiste, tezgâhta, telefonda
+              </h2>
+              <div>
+                <p className="max-w-xl text-lg text-soluk">
+                  Pano bütün işleri gösterir. Bu üç ekran tek bir işe, haftanın teslimlerine ve ustanın elindeki
+                  telefona yakından bakar.
+                </p>
+                <p className="mt-3 font-mono text-xs text-soluk">Örnek ekranlar · kurgusal veri</p>
+              </div>
+            </div>
+            <Ekranlar />
           </div>
         </section>
 

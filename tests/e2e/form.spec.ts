@@ -20,6 +20,20 @@ test("sayfa: başlık, hizmet, form ve erişilebilirlik", async ({ page }) => {
   await erisilebilirlikDenetle(page);
 });
 
+test("bölüm sırası ve dört örnek ürün ekranı", async ({ page }) => {
+  await expect(page.getByRole("heading", { level: 2 })).toHaveText([
+    "Tanıdık geliyor mu?",
+    "Defter yerine tek ekran",
+    "Ofiste, tezgâhta, telefonda",
+    "Tezgâh ile ne değişir?",
+    "Nasıl çalışır?",
+    "Ön görüşme talebi",
+  ]);
+  await expect(page.getByRole("img", { name: /^Örnek ekran:/ })).toHaveCount(4);
+  // Düğme görünümlü öğeler resmin parçası: odak almaz, klavye sırasına girmez.
+  await expect(page.locator('[role="img"] :is(a, button, input, select, textarea, [tabindex])')).toHaveCount(0);
+});
+
 test("yatay kaydırma yok", async ({ page }) => {
   const tasma = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(tasma).toBeLessThanOrEqual(0);
