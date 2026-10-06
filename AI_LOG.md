@@ -124,6 +124,7 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | E2E: tarayıcı bulunamadı | Playwright 1.63'ün istediği Chromium sürümü yoktu | `npx playwright install chromium` |
 | E2E: 8 test "strict mode violation" | Next.js'in sayfa duyurucusu da `role="alert"` taşıyor; seçici iki öğe buldu | Seçici formun içiyle sınırlandı. Uygulama hatası değildi |
 | Lint uyarısı: radyo düğmesinde `aria-invalid` desteklenmiyor | `BasvuruFormu.tsx` | Kaldırıldı; hata metni `fieldset`'e `aria-describedby` ile bağlı |
+| **Kişisel bilgi public repoya gitti (15.00):** Claude Code'un kişisel bilgi tarama komutu, aranan e-posta kullanıcı adını desen olarak içeriyordu; komut kayda düştü. Tarama eşleşme bulduğu hâlde aynı komut zinciri durmadan commit'leyip gönderdi (`c33e7f4`) | Tarama ile commit tek komutta zincirlenmişti; arada kontrol yoktu. Hook bu terimi maskelemiyordu | Hook'a gitignore'lu yerel terim listesiyle maskeleme ve `yeniden-maskele` komutu eklendi; eski kayıtlar yeniden maskelendi (0 eşleşme). Tarama ve commit artık ayrı adım. `c33e7f4` geçmişte duruyor; geçmişi yeniden yazmak Emir'in kararı |
 
 ## Bilinen eksikler
 

@@ -48,3 +48,6 @@ next-env.d.ts
 /test-results/
 /playwright-report/
 /blob-report/
+
+# yerel, kişisel maskeleme terimleri (ai-kayit hook)
+*.local.txt

@@ -5,6 +5,7 @@
 //
 // Elle kullanım:
 //   node .claude/hooks/ai-kayit.mjs ozet                                  → sayılarla özet (Markdown)
+//   node .claude/hooks/ai-kayit.mjs yeniden-maskele                       → mevcut kayıtlara güncel maskeyi uygular
 //   node .claude/hooks/ai-kayit.mjs dok <transcript.jsonl> [--bas ISO] [--son ISO] [--gizle-dosya <desenler.txt>]
 //
 // Hook modunda betik işi asla durdurmaz: hata ai-log/kayit-hatalari.log'a yazılır, çıkış kodu 0.
@@ -43,7 +44,22 @@ const MASKELER = [
   [/\bnfp_[A-Za-z0-9]+/g, "nfp_***"],
   [/\bsk-[A-Za-z0-9_-]{16,}/g, "sk-***"],
   [/\b([A-Z0-9_]*(?:DATABASE_URL|PASSWORD|SECRET|TOKEN|API_KEY))(\s*=\s*)("?)[^\s"']+\3/g, "$1$2$3***$3"],
+  ...gizliTerimler().map((t) => [new RegExp(kacisli(t), "gi"), "***"]),
 ];
+
+// Kişisel terimler (ör. e-posta adresi) koda yazılamaz: kod public. Liste gitignore'lu yerel dosyada,
+// satır başına bir terim. Dosya yoksa ya da okunamazsa maskeleme bu terimler olmadan sürer.
+function gizliTerimler() {
+  try {
+    return fs
+      .readFileSync(path.join(KOK, ".claude", "hooks", "gizli-terimler.local.txt"), "utf8")
+      .split(/\r?\n/)
+      .map((s) => s.trim())
+      .filter((s) => s.length >= 4 && !s.startsWith("#"));
+  } catch {
+    return [];
+  }
+}
 
 export function maskele(metin) {
   let s = String(metin);
@@ -331,6 +347,17 @@ const [, , komut, ...arg] = process.argv;
 
 if (komut === "ozet") {
   ozet();
+} else if (komut === "yeniden-maskele") {
+  // Maskeleme listesine sonradan eklenen terim, önceden yazılmış kayıtlardan da silinir.
+  const dosyalar = [OLAYLAR, ...fs.readdirSync(OTURUMLAR).map((d) => path.join(OTURUMLAR, d))];
+  for (const d of dosyalar) {
+    const eski = fs.readFileSync(d, "utf8");
+    const yeni = maskele(eski);
+    if (yeni !== eski) {
+      fs.writeFileSync(d, yeni);
+      console.log("maskelendi:", path.relative(KOK, d));
+    }
+  }
 } else if (komut === "dok") {
   const secenek = (ad) => {
     const i = arg.indexOf(ad);
