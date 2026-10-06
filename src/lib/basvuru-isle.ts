@@ -55,7 +55,7 @@ export async function basvuruIsle(istek: Request, depo: Depo): Promise<Response>
     return yanit(201, { durum: "kaydedildi", kayitNo });
   } catch (e) {
     // Ham hata yalnız sunucu günlüğüne; kullanıcıya genel mesaj.
-    console.error("[basvuru] kaydedilemedi:", e instanceof Error ? `${e.name}: ${e.message}` : e);
+    console.error("[basvuru] kaydedilemedi:", gunlukIcinTemizle(e instanceof Error ? `${e.name}: ${e.message}` : String(e)));
     return hata(500, "Talebiniz şu an kaydedilemedi. Lütfen biraz sonra tekrar deneyin.");
   }
 }
@@ -94,6 +94,12 @@ async function govdeOku(istek: Request, sinir: number): Promise<string | null> {
 function istemciAnahtari(istek: Request): string {
   const ip = istek.headers.get("x-nf-client-connection-ip") ?? "yerel";
   return createHash("sha256").update(ip).digest("hex");
+}
+
+// Sürücü hatası bağlantı adresini olduğu gibi içerebiliyor (canlıda görüldü);
+// adresteki kullanıcı adı ve şifre günlüğe yazılmaz.
+export function gunlukIcinTemizle(metin: string): string {
+  return metin.replace(/\/\/[^/\s@]+@/g, "//***@");
 }
 
 function yanit(kod: number, govde: BasvuruYaniti, basliklar?: Record<string, string>): Response {

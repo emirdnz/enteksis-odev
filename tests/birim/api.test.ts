@@ -74,6 +74,14 @@ describe("POST /api/basvuru", () => {
       expect(depo.kayitlar).toHaveLength(0);
     });
 
+    it("sunucu günlüğüne bağlantı adresindeki şifre yazılmaz", async () => {
+      depo.sayacHatasi = new Error('not a valid URL (connection string: "postgresql://kullanici:gizli-sifre@db.ornek.test/db")');
+      await basvuruIsle(istek(gecerli), depo);
+      const gunluk = vi.mocked(console.error).mock.calls.flat().join(" ");
+      expect(gunluk).toContain("postgresql://***@db.ornek.test/db");
+      expect(gunluk).not.toMatch(/kullanici|gizli-sifre/);
+    });
+
     it("veritabanına hiç ulaşılamazsa (sayaç sorgusu düşer) → 500, kayıt yok", async () => {
       depo.sayacHatasi = new Error("fetch failed");
       const y = await basvuruIsle(istek(gecerli), depo);
