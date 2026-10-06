@@ -111,7 +111,8 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | 18.03–18.06 | **Emir** yerelde son kez baktı: turuncu yerine mavi (18.05); örnek ekranlardaki aşama çubukları neon mavi (18.05); daha koyu, daha neon, hafif saydam (18.06) → vurgu `#1d4ed8`, çubuk ayrı neon renk; e2e 40/40 (18.06) | Emir · Claude Code |
 | 18.09–18.13 | **Emir:** "bir tane hatamız var", aşama çubukları istediği gibi olmadı → hata tarayıcı eklentisinden (Hatalar); çubuk koyu elektrik mavisi `#0047ff`, güçlü parlama, biraz kalın; dört seçenek yan yana denendi | Claude Code |
 | 18.14 | **Emir:** tasarımı beğendi; asıl tasarım olsun, GitHub'a gönderilsin, canlıya alınsın; sonra bilgisayar ve telefonda kendisi test edip teslim edecek (K34) | Emir |
-| 18.15– | Tam test, belgeler, commit, gönderme, canlı kontrol | Claude Code |
+| 18.15–18.17 | Tam test (lint 0, tip 0, 26/26, 40/40); belgeler; commit `bbd28e4`; GitHub'a gönderildi (Emir 18.14'te istedi); Netlify 18.17.33'te yeni sürümü sunuyordu | Claude Code |
+| 18.17– | Canlı kontrol: başlıklar, canlı test (kayıt yazmadan), mobil ekran görüntüsü; kayıt satırları gönderildi; teslim metinleri Emir'e verildi | Claude Code |
 
 ## Karar kaydı
 
@@ -200,6 +201,7 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | Yeni tasarım, görünüm (18.00) | Ekran görüntüsü 390×844 (üst, alt) ve 1280×800 (SSS) | İki kusur bulundu, düzeltildi: mobilde düğme alt bilgi metnini örtüyordu (son satıra boşluk); yarı saydam menünün arkasında yazı silik görünüyordu (düz beyaz). Sonra tam koşu yine 40/40 |
 | Renk karşıtlığı, mavi (18.16) | WCAG formülüyle hesap | Beyaz/mavi 6.70; mavi/açık gri 6.19; mavi/en koyu gri 5.69; beyaz/koyu mavi (üzerine gelince) 8.72; açık mavi/lacivert 8.05. Mavi/lacivert 2.17 → lacivert bölümlerde açık mavi |
 | Mavi ve neon çubuk, tam koşu (18.15–18.16) | `npm run lint`, `npx tsc --noEmit`, `npx vitest run`, `npx playwright test` (derleme dahil) | lint 0; tip 0; 26/26; 40/40 |
+| Canlı, mavi tasarım (18.17) | `curl` ile yeni CSS'te `#0047ff` beklendi; `CANLI_URL=… npx playwright test --grep-invert "gönderim"`; `curl -sI`; 390×844 ekran görüntüsü | Yeni sürüm 18.17.33'te yayında; 4/4 (kayıt yazan test bilerek çalıştırılmadı, canlı veritabanına yeni test kaydı eklenmesin; formu Emir deneyecek); CSP, HSTS, X-Frame-Options var; Netlify rozeti yok; konsolda hata yok |
 | Ölçüm, yeni tasarım (18.01) | `node scripts/olc.mjs` | Yazı tipi 101.5 KB (önce 375.1); JS 222.9 KB (+0.5); HTML gzip 17.4 KB; CLS 0; sayfa statik |
 
 ## Hatalar ve düzeltmeler

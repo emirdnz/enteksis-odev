@@ -1,7 +1,7 @@
 # Test raporu
 
 Testler sayı için çoğaltılmadı; her biri bir kabul ölçütünü ya da bulunan bir hatayı sınar.
-Son tam koşu: 6 Ekim 2026, 18.16 (birim, lint, tip, derleme, e2e); canlı 17.18 (gönderimden sonra yenilenir). Son doğrulama sonuçları `AI_LOG.md`'de.
+Son tam koşu: 6 Ekim 2026, 18.16 (birim, lint, tip, derleme, e2e); canlı 18.17 (kayıt yazan test hariç). Son doğrulama sonuçları `AI_LOG.md`'de.
 
 ## Sayılar
 
@@ -9,7 +9,7 @@ Son tam koşu: 6 Ekim 2026, 18.16 (birim, lint, tip, derleme, e2e); canlı 17.18
 |---|---|---|---|
 | Birim + API + veritabanı | `npm test` (Vitest) | `basvuru` 8 · `api` 12 · `veritabani` 6 | **26/26** |
 | Uçtan uca (yerel) | `npm run test:e2e` (Playwright) | `form` 14 · `sunucu` 6, her biri mobil + masaüstü | **40/40** |
-| Uçtan uca (canlı) | `CANLI_URL=https://enteksisodev.netlify.app npm run test:e2e` | `canli` 3 | Son koşu 17.18: 5 geçti, 1 atlandı (kayıt yalnız masaüstünden yazılır) |
+| Uçtan uca (canlı) | `CANLI_URL=https://enteksisodev.netlify.app npm run test:e2e` | `canli` 3 | 18.17: kayıt yazan test hariç 4/4. 17.18: 5 geçti, 1 atlandı (kayıt yalnız masaüstünden yazılır) |
 | Lint | `npm run lint` | — | 0 hata, 0 uyarı |
 | Tip | `npx tsc --noEmit` | — | 0 hata |
 | Derleme | `npm run build` | — | Geçti; `/` statik, `/api/basvuru` dinamik |

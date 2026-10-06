@@ -6,7 +6,7 @@
 
 | # | Ne | Değer | Durum |
 |---|---|---|---|
-| 1 | Canlı URL | https://enteksisodev.netlify.app | ✅ son sürüm yayında (17.17); canlı test 17.18 |
+| 1 | Canlı URL | https://enteksisodev.netlify.app | ✅ son sürüm yayında (18.17, `bbd28e4`); canlı test 18.17 |
 | 2 | Repo (public) | https://github.com/emirdnz/enteksis-odev | ✅ |
 | 3 | README | `README.md` | ✅ |
 | 4 | AI kaydı | `AI_LOG.md` + `ai-log/` | ✅ |
@@ -27,8 +27,8 @@
 | 7 | Birim | `npx vitest run` | ✅ 26/26 |
 | 8 | Uçtan uca + axe | `npm run test:e2e` (mobil + masaüstü) | ✅ 40/40 (18.16) |
 | 9 | Gönderme | **Emir onayıyla** `git push` | ✅ 17.17 |
-| 10 | Canlı başlıklar | `curl -sI` → CSP, HSTS, nosniff; API `Cache-Control: no-store` | ✅ 17.18 |
-| 11 | Canlı akış | `CANLI_URL=… npx playwright test tests/e2e/canli.spec.ts` | ✅ 5 geçti, 1 atlandı (17.18). Emir'in yerel denemesi: kayıt 4 veritabanında (17.19) |
+| 10 | Canlı başlıklar | `curl -sI` → CSP, HSTS, nosniff; API `Cache-Control: no-store` | ✅ 18.17 (CSP, HSTS, X-Frame-Options) |
+| 11 | Canlı akış | `CANLI_URL=… npx playwright test tests/e2e/canli.spec.ts` | ✅ 5 geçti, 1 atlandı (17.18). 18.17'de kayıt yazmadan: 4/4; formu Emir canlıda kendisi deneyecek. Emir'in yerel denemesi: kayıt 4 veritabanında (17.19) |
 | 12 | Mobil ve masaüstü görünüm | Ekran görüntüsü 390×844, 1280×800 | ✅ yatay kaydırma yok · Netlify rozeti Emir'ce kapatıldı (17.34) |
 
 ## Emir'in onayı ya da eylemi gereken işler
