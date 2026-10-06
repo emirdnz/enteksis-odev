@@ -18,7 +18,7 @@ Bulunan ve düzeltilen 3 sorun (veritabanı sınırı, uzunluk ölçüsü, çift
 | Parametreli SQL | Var | `@neondatabase/serverless` etiketli şablon; ORM yok. Test: `'; DROP TABLE basvurular; --` ve `<script>…` metni olduğu gibi saklandı, SQL olarak çalışmadı (gerçek Postgres) |
 | İç hata sızmaz | Var | Veritabanı hatasında kullanıcıya genel mesaj, 500. Yanıtta sürücü mesajı, adres yok (birim + e2e) |
 | Günlükte şifre yok | Var | Hata günlüğünde bağlantı adresinin kullanıcı adı ve şifresi `//***@` ile maskelenir (K22, birim testi) |
-| Önbellek | Var | Her API yanıtında `Cache-Control: no-store` (`basvuru-isle.ts`). Testi yok; son doğrulamada `curl` ile bakılacak |
+| Önbellek | Var | Her API yanıtında `Cache-Control: no-store` (`basvuru-isle.ts`). Otomatik testi yok; canlıda `curl` ile görüldü (17.18) |
 | Çift gönderim | Var (düzeltildi) | Aşağıda, Bulgu 3 |
 | Gizli değer kodda değil | Var | `DATABASE_URL` yalnız `.env.local` (git dışı) ve Netlify ortam değişkeninde. Repoda yalnız `.env.example` |
 
@@ -54,8 +54,8 @@ veritabanı 1 karakterlik kaydı kabul ederdi.
   Geri dönüş yolu dosyada yazılı (`DROP CONSTRAINT`, yalnız eklenen iki kısıt).
 - Test: gerçek Postgres (PGlite) üzerinde 21 sınır durumunda uygulama ve veritabanı aynı kararı veriyor;
   eski şemanın "A"yı kabul ettiği de testte görülüyor.
-- **Canlı veritabanı:** göç henüz çalıştırılmadı. Kural gereği Emir çalıştırır: `npm run db:goc`.
-  Salt okuma ön kontrolü (16.54): 2 satır, kurala uymayan 0.
+- **Canlı veritabanı:** göçü kural gereği Emir çalıştırdı (17.20, `npm run db:goc`): 4 satır, kurala uymayan 0.
+  Salt okuma kontrol (17.21): iki yeni kısıt (`basvurular_isim_en_az`, `basvurular_aciklama_en_az`) etkin ve doğrulanmış.
 
 **Bulgu 2 — Uzunluk iki yerde farklı ölçülüyordu.** JavaScript `length` emojiyi 2 sayar, Postgres
 `char_length` 1. 50 emojilik bir isim uygulamada 100, veritabanında 50 sayılırdı.
@@ -83,7 +83,6 @@ iki gönderim aynı görevde gelirse (ör. çift Enter) ikincisi durumu henüz e
 
 | Risk | Etki | Neden şimdi değil / ne yapılır |
 |---|---|---|
-| Canlı veritabanında göç 001 bekliyor | Uygulama doğrulaması atlanırsa veritabanı kısa kaydı kabul eder | Emir çalıştıracak (`npm run db:goc`) |
 | Aynı NAT arkasındaki kullanıcılar tek sayaç | Ofis/okul ağından 10 dakikada 5'ten fazla gerçek başvuru 429 alır | Bu ölçekte kabul edilebilir; README'de yazılı |
 | IP özeti tuzsuz SHA-256 | IPv4 uzayı küçük, özet tersine çevrilebilir. Takma addır, anonim değil | Sonraki adım: gizli anahtarla HMAC |
 | Hız sınırı tablosu temizlenmiyor | Tablo zamanla büyür | Kalıcı kullanımda zamanlanmış temizlik |

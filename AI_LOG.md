@@ -86,7 +86,13 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | 16.54–16.57 | Güvenlik: CSP (K27); çift gönderim testi önce düştü → `useRef` kilidi (K29); `e89d032` | Claude Code |
 | 16.57–17.01 | Tasarım: önce ölçüm, 3 yeni ürün ekranı + 2 bölüm, sonra ölçüm; `3dc249c` (K30) | Claude Code |
 | 17.02 | Tam koşu: lint, tip, birim, `npm audit` | Claude Code |
-| 17.04– | `docs/` altında 5 rapor; README ve AI_LOG güncellendi | Claude Code |
+| 17.04–17.14 | `docs/` altında 5 rapor; README ve AI_LOG güncellendi | Claude Code |
+| –17.16 | Commit öncesi tarama, `1e78c17`; son doğrulama: audit, lint, tip, derleme, birim, e2e | Claude Code |
+| 17.17 | **Emir:** "gönderebilirsin" → GitHub'a gönderildi, Netlify yeni sürümü yayınladı | Claude Code |
+| 17.18 | Canlı başlıklar, canlı test, mobil ve masaüstü ekran görüntüsü; yerel önizleme (`localhost:3000`) Emir'e açıldı | Claude Code |
+| 17.19 | Emir yerelde formu gönderdi, ekranda "kayıt numaranız 4" → salt okuma sorgusuyla veritabanında görüldü | Emir · Claude Code |
+| 17.20–17.21 | **Emir göç 001'i canlıda çalıştırdı** (`npm run db:goc`); salt okuma sorgusuyla kısıtlar doğrulandı | Emir · Claude Code |
+| 17.21– | Raporlar son duruma getirildi; son commit ve gönderim | Claude Code |
 
 ## Karar kaydı
 
@@ -115,7 +121,7 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | K21 | Netlify girişi ve `DATABASE_URL` | Emir yapar | Claude Code'un güvenlik kuralı hesaba girişi ve gizli değeri forma yazmayı yasaklıyor; ayrıca otomatik denetim `netlify login`'i engelledi |
 | K22 | Sunucu günlüğü | Hata mesajındaki bağlantı adresinin kullanıcı adı ve şifresi `//***@` ile maskelenir (`gunlukIcinTemizle`) | Claude Code önerdi. Canlıda sürücü hatası adresi şifresiyle birlikte günlüğe yazdı; günlük özel olsa da şifre orada durmamalı |
 | K23 | Ham AI kaydı (`ai-log/`) | Repoda kalır | ChatGPT "gerekli mi" diye sordu. Emir: "kalsın". AI ile üretimin kanıtı; yazılırken maskeleniyor; çıkarmak git geçmişinden zaten silmez |
-| K24 | Veritabanı alt sınırları | `sema.sql`'de isim 2, açıklama 10. Canlı için yalnız kısıt ekleyen göç (`db/gocler/001`); **Emir çalıştırır** (`npm run db:goc`) | Denetimde bulundu: veritabanı 1 karakteri kabul ediyordu. K8 gereği üretim verisine dokunan komut Emir'de; göç, kurala uymayan satır varsa hiçbir şeyi değiştirmeden durur |
+| K24 | Veritabanı alt sınırları | `sema.sql`'de isim 2, açıklama 10. Canlı için yalnız kısıt ekleyen göç (`db/gocler/001`); **Emir çalıştırır** (`npm run db:goc`; 17.20'de uygulandı) | Denetimde bulundu: veritabanı 1 karakteri kabul ediyordu. K8 gereği üretim verisine dokunan komut Emir'de; göç, kurala uymayan satır varsa hiçbir şeyi değiştirmeden durur |
 | K25 | Uzunluk ölçüsü | Karakter (kod noktası) sayılır, JavaScript'in UTF-16 birimi değil | Claude Code buldu: emoji uygulamada 2, Postgres'te 1 sayılıyordu. Artık iki taraf aynı ölçüyü kullanır |
 | K26 | Veritabanı testleri | PGlite: bellekte gerçek Postgres, yalnız geliştirme bağımlılığı | Claude Code önerdi. `CHECK` kısıtları ve göç, canlı veritabanına dokunmadan gerçek Postgres'te sınanır |
 | K27 | CSP | Nonce'suz; `script-src 'self' 'unsafe-inline'` | Next.js rehberi: nonce her isteği dinamik yapar. Sayfa statik kalsın; sayfa kullanıcı verisi göstermiyor. HSTS kodda yok: Netlify zaten gönderiyor (`curl` ile görüldü) |
@@ -155,6 +161,13 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | Tam koşu (17.01–17.02) | `npx playwright test`, `npx eslint .`, `npx tsc --noEmit`, `npx vitest run`, `npm audit` | 36/36, 0, 0, 26/26. Audit: yayına giden paketlerde 0; geliştirmede 5 yüksek (lint aracı zinciri, düzeltmesi yok) |
 | Commit öncesi tarama (16.47, 16.54, 16.57, 17.01) | Genel gizli değer ve yerel yol desenleri + repo dışı yerel terim listesi (`grep -f`, yalnız sayı) | 0 eşleşme |
 | GitHub (16.40) | Repo güvenlik ayarları | Secret scanning ve push protection açık, uyarı 0; Dependabot kapalı |
+| Commit öncesi tarama (17.15) | Aynı desenler + yerel terim listesi, yalnız sayı | Gerçek değer 0. Tek eşleşme: AI_LOG'daki desen tarifinde yer tutucu "şifre" kelimesi |
+| Son doğrulama, gönderme öncesi (17.15–17.16) | `npm audit --omit=dev`, `npm audit`, `npm run lint`, `npx tsc --noEmit`, `npm run build`, `npx vitest run`, `npm run test:e2e` | Yayın 0 açık; geliştirme 5 yüksek (aynı zincir); lint 0; tip 0; derleme geçti (`/` statik); 26/26; 36/36; 3217 portu kapandı |
+| Canlı başlıklar (17.18) | `curl -sI`; API'ye boş gövde | CSP (`unsafe-eval` 0), HSTS, nosniff, X-Frame-Options DENY, Referrer-Policy, Permissions-Policy. API: 422 ve `Cache-Control: no-store` |
+| Canlı test (17.18) | `CANLI_URL=… npx playwright test tests/e2e/canli.spec.ts` | 5 geçti, 1 atlandı |
+| Canlı görünüm (17.18–17.19) | Ekran görüntüsü 390×844 ve 1280×800 | Yatay kaydırma yok; pano tam. Netlify'ın "Powered by Netlify" rozeti sağ altta sayfanın üstünde (kodda yok) |
+| Yerel form → veritabanı (17.19) | Emir yerelde gönderdi; salt okuma `SELECT` (ad ve e-posta yazdırılmadı) | Ekranda kayıt 4; veritabanında 4 numara, 17.19 |
+| Göç 001, canlı (17.20–17.21) | Emir: `npm run db:goc`; sonra salt okuma `pg_constraint` | "satır: 4 · yeni kurala uymayan: 0 · uygulandı". `basvurular_isim_en_az` (≥ 2) ve `basvurular_aciklama_en_az` (≥ 10) etkin, doğrulanmış; satır sayısı 4, değişmedi |
 
 ## Hatalar ve düzeltmeler
 
@@ -193,6 +206,7 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
 | **Çift gönderimde 2 istek (16.55)** | Yeni e2e testi buldu: `BasvuruFormu.tsx` kilidi React durumuna bakıyordu | `useRef` kilidi (K29); test geçti |
 | Taşıma sonrası artık bileşen (17.00) | `page.tsx`'te kullanılmayan `IsKarti` kalmıştı | Silindi; tip ve lint temiz |
 | Uzun AI_LOG değişikliği kabukta tırnak hatası verdi (17.13) | Tek satırlık kabuk komutunda | Betik dosyaya yazılıp çalıştırıldı |
+| Göç komutu ilk denemede çalışmadı (17.20) | Komutun sonunda fazladan nokta (`db:goc.`); npm betiği bulamadı | Hiçbir şey değişmedi; noktasız komutla yeniden çalıştırıldı |
 
 ## Bilinen eksikler
 
@@ -202,3 +216,4 @@ Kararları ben (Emir) verdim. Hesaplar (GitHub, Netlify, Neon), gizli değişken
   (`ai-log/oturumlar/`) ret mesajlarıyla birlikte görünür.
 - `olaylar.jsonl`'da 4 satır okunamıyor (satır 55, 317, 336, 349; `yeniden-maskele` hatası, 16.44).
   Elle düzeltilmedi; `npm run ai-log:ozet` bu satırları atlar ve numaralarını yazar. Aynı olaylar oturum dökümünde okunur.
+- Canlıda Netlify sağ alt köşeye "Powered by Netlify" rozeti ekliyor; örnek panonun köşesini örtüyor. Kodda yok; kapatma yolu denenmedi.

@@ -1,7 +1,7 @@
 # Test raporu
 
 Testler sayı için çoğaltılmadı; her biri bir kabul ölçütünü ya da bulunan bir hatayı sınar.
-Son tam koşu: 6 Ekim 2026, 17.02 (birim, lint, tip) ve 17.01 (e2e). Son doğrulama sonuçları `AI_LOG.md`'de.
+Son tam koşu: 6 Ekim 2026, 17.15–17.16 (birim, lint, tip, derleme, e2e); canlı 17.18. Son doğrulama sonuçları `AI_LOG.md`'de.
 
 ## Sayılar
 
@@ -9,7 +9,7 @@ Son tam koşu: 6 Ekim 2026, 17.02 (birim, lint, tip) ve 17.01 (e2e). Son doğrul
 |---|---|---|---|
 | Birim + API + veritabanı | `npm test` (Vitest) | `basvuru` 8 · `api` 12 · `veritabani` 6 | **26/26** |
 | Uçtan uca (yerel) | `npm run test:e2e` (Playwright) | `form` 12 · `sunucu` 6, her biri mobil + masaüstü | **36/36** |
-| Uçtan uca (canlı) | `CANLI_URL=https://enteksisodev.netlify.app npm run test:e2e` | `canli` 3 | Son koşu 15.58 (sonuç 16.00): 5 geçti, 1 atlandı (kayıt yalnız masaüstünden yazılır) |
+| Uçtan uca (canlı) | `CANLI_URL=https://enteksisodev.netlify.app npm run test:e2e` | `canli` 3 | Son koşu 17.18: 5 geçti, 1 atlandı (kayıt yalnız masaüstünden yazılır) |
 | Lint | `npm run lint` | — | 0 hata, 0 uyarı |
 | Tip | `npx tsc --noEmit` | — | 0 hata |
 | Derleme | `npm run build` | — | Geçti; `/` statik, `/api/basvuru` dinamik |
@@ -31,7 +31,7 @@ Son tam koşu: 6 Ekim 2026, 17.02 (birim, lint, tip) ve 17.01 (e2e). Son doğrul
 | Ölçüt | Testler |
 |---|---|
 | Başarı yalnız kayıt yazıldıysa | Birim: "veritabanı yazamazsa → 500…", "veritabanına hiç ulaşılamazsa…", "yanıt, kaydet() tamamlanmadan dönmez". E2E: "veritabanına yazılamazsa → 500…", "arayüz, gerçek sunucunun kayıt hatasında başarı göstermez", "başarı yalnız 201 + kaydedildi ile…". Canlı: "canlı gönderim veritabanına yazılır…" |
-| Kalıcı kayıt | Veritabanı: "kaydet: id döndürür…". Canlı: kayıt numarası döner |
+| Kalıcı kayıt | Veritabanı: "kaydet: id döndürür…". Canlı: kayıt numarası döner. Elle (17.19): Emir yerelde gönderdi, ekranda kayıt 4; veritabanında 4 numara var (salt okuma sorgusu) |
 | İstemci doğrulaması | E2E: "istemci doğrulaması: hatalı form sunucuya gitmez…" (istek sayısı 0) |
 | Sunucu doğrulaması | Birim: "geçersiz başvuru → 422…", şema testleri (isim, e-posta, hizmet, açıklama, eksik alan, NUL). E2E ve canlı: 422 |
 | Uygulama = veritabanı kuralı | Veritabanı: "db/sema.sql: sınırlarda… aynı kararı verir" (21 durum), "6 Ekim şeması + göç 001…" |
@@ -59,4 +59,4 @@ Son tam koşu: 6 Ekim 2026, 17.02 (birim, lint, tip) ve 17.01 (e2e). Son doğrul
 - 15 sn zaman aşımı mesajı (kodda var, e2e'de taklit edilmedi).
 - Hız sınırının gerçek Netlify arkasında 6. istekte 429 vermesi: birim ve veritabanı testinde var,
   canlıda bilerek denenmedi (önce 5 gerçek kayıt yazmak gerekirdi).
-- `Cache-Control: no-store`: testi yok, son doğrulamada `curl` ile bakılacak.
+- `Cache-Control: no-store`: otomatik testi yok; canlıda `curl` ile görüldü (17.18).

@@ -80,3 +80,8 @@ boyut ekseni (`opsz`) ve italik dosyası, Plex Mono'nun iki ağırlığı, her b
 Azaltma yolları: Fraunces'te `opsz` eksenini kaldırmak, italiği kaldırmak, Plex Mono'yu tek ağırlığa
 indirmek. **Bu teslimde yapılmadı:** görünümü değiştirir ve tasarım onaylandıktan sonra kapsam dışı.
 Yazı tipleri `next/font` ile kendi alan adımızdan, önceden yüklenerek gelir; CLS 0.
+
+## Canlıda görülen
+
+Netlify sayfanın sağ alt köşesine "Powered by Netlify" rozeti ekliyor (17.18 ekran görüntüleri); mobilde örnek
+panonun köşesini örtüyor. Rozet bizim kodda yok. Kapatma yolu denenmedi.
